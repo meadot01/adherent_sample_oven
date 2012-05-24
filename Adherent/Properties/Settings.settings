@@ -1,0 +1,36 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WpfApplication1.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="tempBoardNumber" Type="System.Byte" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="dInBoardNumber" Type="System.Byte" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Sample1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Port1A0</Value>
+    </Setting>
+    <Setting Name="Sample2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Port1A1</Value>
+    </Setting>
+    <Setting Name="Sample3" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Port1A2</Value>
+    </Setting>
+    <Setting Name="Sample4" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Port1A3</Value>
+    </Setting>
+    <Setting Name="MainWindowHeight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">625</Value>
+    </Setting>
+    <Setting Name="MainWindowWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">900</Value>
+    </Setting>
+    <Setting Name="MainWindowTop" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">50</Value>
+    </Setting>
+    <Setting Name="MainWindowLeft" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">50</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

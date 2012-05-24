@@ -1,0 +1,73 @@
+﻿<Window x:Class="WpfApplication1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:self="clr-namespace:WpfApplication1"
+        xmlns:config="clr-namespace:WpfApplication1.Properties"
+        xmlns:local="clr-namespace:WpfApplication1.DataObjects"    
+        Title="Adherent Samples"
+                Height="{Binding Source={x:Static self:Properties.Settings.Default}, 
+                         Path=MainWindowHeight, Mode=TwoWay}"
+        Width="{Binding Source={x:Static self:Properties.Settings.Default}, 
+                        Path=MainWindowWidth, Mode=TwoWay}"
+        Top ="{Binding Source={x:Static self:Properties.Settings.Default}, 
+                       Path=MainWindowTop, Mode=TwoWay}"
+        Left ="{Binding Source={x:Static self:Properties.Settings.Default}, 
+                        Path=MainWindowLeft, Mode=TwoWay}"
+        WindowState="{Binding Source={x:Static self:Properties.Settings.Default}, 
+                              Path=ApplicationWindowState, Mode=TwoWay}">
+        
+    <Window.Resources>
+        <!-- create an instance of our DataProvider class -->
+        <ObjectDataProvider x:Key="DeviceConfigurationProvider"
+            ObjectType="{x:Type local:SampleInformationProvider}"/>
+        <!-- define the method which is invoked to obtain our data -->
+        <ObjectDataProvider x:Key="DeviceConfigurations"
+          ObjectInstance="{StaticResource DeviceConfigurationProvider}"
+          MethodName="getDeviceConfigurationList"/>
+        <local:MccPortInformationAccessor x:Key="PortInfoProvider"/>
+        <!-- define the method which is invoked to obtain our data -->
+    </Window.Resources>
+        <DockPanel >
+        <Menu DockPanel.Dock ="Top" Height="23" HorizontalAlignment="Stretch" Name="menu1" VerticalAlignment="Top" Width="Auto">
+            <MenuItem Header="File">
+                <MenuItem Header="Print..." Name="printMenuItem" Click="printMenuItem_Click" />
+                <MenuItem Header="Do Something" Name="doSomethingMenuItem" Click="doSomethingMenuItem_Click" />
+            </MenuItem>
+
+            <MenuItem Header="Edit">
+                <MenuItem Header="Config..." Name="configMenuItem" Click="configMenuItem_Click" />
+            </MenuItem>
+        </Menu>
+        <DockPanel DockPanel.Dock ="Top" Height="120px" >
+            <Grid DockPanel.Dock ="Left"></Grid>
+            <Grid DockPanel.Dock ="Right">
+                <Grid>
+                    <TextBlock HorizontalAlignment="Right"  Name="timeFromStartLabel" Text="Time From Start" Margin="0,15,61,0" Height="20" VerticalAlignment="Top" />
+                    <TextBlock HorizontalAlignment="Right" Margin="0,30,34,0" Name="timeFromStartValue" Text="time" Width="111" Height="20"  VerticalAlignment="Top" FontWeight="Bold" />
+                    <TextBlock HorizontalAlignment="Right"  Name="currentTemperatureLabel" Text="Current Temperature" Margin="0,45,34,0" Height="20"  VerticalAlignment="Top" />
+                    <TextBlock HorizontalAlignment="Right" Margin="0,60,34,0" Name="currentTemperatureValue" Text="temp" Width="111" Height="20"  VerticalAlignment="Top" FontWeight="Bold" />
+                    <Button Content="Start" Height="54" HorizontalAlignment="Left" Margin="174,30,0,0" Name="startStopButton" VerticalAlignment="Top" Width="116" Click="startStopButton_Click" FontSize="16" />
+                </Grid>
+            </Grid>
+        </DockPanel>
+        <DockPanel>
+            <Grid  ShowGridLines="True" Name="sampleGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+            </Grid>
+        </DockPanel>
+    </DockPanel>
+</Window>

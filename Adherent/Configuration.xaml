@@ -1,0 +1,39 @@
+﻿<Window x:Class="WpfApplication1.Configuration"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:WpfApplication1.DataObjects"
+        Title="Configuration" Height="300" Width="405">
+    <Window.Resources>
+        <!-- create an instance of our DataProvider class -->
+        <ObjectDataProvider x:Key="PortInfoAccessor"
+            ObjectType="{x:Type local:MccPortInformationAccessor}"/>
+        <!-- define the method which is invoked to obtain our data -->
+        <ObjectDataProvider x:Key="PortInformation"
+          ObjectInstance="{StaticResource PortInfoAccessor}"
+          MethodName="getSampleInformationList"/>
+
+        <Style x:Key="RightAlignStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="TextAlignment" Value="Right" />
+        </Style>
+        <Style TargetType="DataGridCell">
+            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="DataGridCell_PreviewMouseLeftButtonDown"/>
+        </Style>
+    </Window.Resources> 
+    <Grid>
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="340,45,0,0" Name="temperatureTextBox" VerticalAlignment="Top" Width="120"  IsReadOnly="True" BorderThickness="0" Cursor="Arrow" />
+        <DataGrid Name="dataGrid1" ItemsSource="{Binding}" DataContext="{Binding SampleInformationList, Source={x:Static local:SampleInformationProvider.Instance}}" Margin="25,12,0,33" AutoGenerateColumns="False" HorizontalAlignment="Left">
+            
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=SampleNumber}" Header="Sample Number" IsReadOnly="True" ElementStyle="{StaticResource RightAlignStyle}" CanUserResize="False" />
+                <DataGridComboBoxColumn x:Name="portInfoCombo" SelectedItemBinding="{Binding PortName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding MccPortNameList, Source={x:Static local:MccPortInformationAccessor.Instance}}" Header="Port Name" CanUserResize="False" Width="100">
+                    <DataGridComboBoxColumn.EditingElementStyle>
+                        <Style TargetType="{x:Type ComboBox}">
+                            <Setter Property="IsDropDownOpen" Value="True"></Setter>
+                        </Style>
+                    </DataGridComboBoxColumn.EditingElementStyle>
+                </DataGridComboBoxColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+
+</Window>
