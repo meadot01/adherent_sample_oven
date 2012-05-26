@@ -57,18 +57,18 @@ namespace WpfApplication1
 
         private void subscribeToSampleInformationPropertyChanges()
         {
-            foreach (SampleInformation si in SampleInformationProvider.Instance.SampleInformationList)
-            {
-                si.PropertyChanged += SampleInformationChanged;
-            }
+            //foreach (SampleInformation si in SampleInformationProvider.Instance.SampleInformationList)
+            //{
+            //    si.PropertyChanged += SampleInformationChanged;
+            //}
         }
 
         private void unsubscribeFromSampleInformationPropertyChanges()
         {
-            foreach (SampleInformation si in SampleInformationProvider.Instance.SampleInformationList)
-            {
-                si.PropertyChanged -= SampleInformationChanged;
-            }
+            //foreach (SampleInformation si in SampleInformationProvider.Instance.SampleInformationList)
+            //{
+            //    si.PropertyChanged -= SampleInformationChanged;
+            //}
         }
 
 
@@ -122,14 +122,14 @@ namespace WpfApplication1
         {
             if (e.PropertyName == "PortInformation")
             {
-                foreach (SampleInformation si in SampleInformationProvider.Instance.SampleInformationList)
-                {
-                    if ((si.SampleNumber != ((SampleInformation)sender).SampleNumber) &&
-                        (si.PortName == ((SampleInformation)sender).PortName))
-                    {
-                        si.PortInformation = null;
-                    }
-                }
+                //foreach (SampleInformation si in SampleInformationProvider.Instance.SampleInformationList)
+                //{
+                //    if ((si.SampleNumber != ((SampleInformation)sender).SampleNumber) &&
+                //        (si.PortName == ((SampleInformation)sender).PortName))
+                //    {
+                //        si.PortInformation = null;
+                //    }
+                //}
                 dataGrid1.CommitEdit();
                 dataGrid1.CancelEdit();
                 //dataGrid1.Items.Refresh();

@@ -72,6 +72,27 @@ namespace WpfApplication1
             }
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is SampleInformation)
+            {
+            SampleInformation fooItem = obj as SampleInformation;
+
+            return fooItem.SampleNumber == this.SampleNumber;
+
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            // Which is preferred?
+
+            return SampleNumber;
+
+            //return this.FooId.GetHashCode();
+        }
+
     }
 
 

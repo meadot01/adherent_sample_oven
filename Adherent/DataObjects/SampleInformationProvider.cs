@@ -13,7 +13,7 @@ namespace WpfApplication1.DataObjects
         // and status of each sample
         static readonly SampleInformationProvider _instance = new SampleInformationProvider();
         
-        private ObservableCollection<SampleInformation> deviceConfigurationList = new ObservableCollection<SampleInformation>();
+        private IDictionary<byte, MccPortInformation> sampleConfigurationDictionary = new Dictionary<byte,MccPortInformation>();
 
         public static SampleInformationProvider Instance
         {
@@ -23,10 +23,10 @@ namespace WpfApplication1.DataObjects
         private SampleInformationProvider()
         {
         }
-        public ObservableCollection<SampleInformation> SampleInformationList
+        public IDictionary<byte, MccPortInformation> SampleConfigurationDictionary
         {
             get {
-                if (deviceConfigurationList.Count == 0)
+                if (sampleConfigurationDictionary.Count == 0)
                 {
                     for (byte i = 1; i <= 30; i++)
                     {
@@ -38,12 +38,12 @@ namespace WpfApplication1.DataObjects
                         catch (System.Configuration.SettingsPropertyNotFoundException)
                         { }
                         MccPortInformation portInfo = MccPortInformationAccessor.Instance.portForName(portName);
-                        deviceConfigurationList.Add(new SampleInformation(i, portInfo));
+                        sampleConfigurationDictionary.Add(i,portInfo);
                     }
                    
                    // Properties.Settings.
                 }
-                return deviceConfigurationList;
+                return sampleConfigurationDictionary;
             }
         }
 

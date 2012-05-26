@@ -24,7 +24,7 @@
         <ObjectDataProvider x:Key="DeviceConfigurations"
           ObjectInstance="{StaticResource DeviceConfigurationProvider}"
           MethodName="getDeviceConfigurationList"/>
-        <local:MccPortInformationAccessor x:Key="PortInfoProvider"/>
+
         <!-- define the method which is invoked to obtain our data -->
     </Window.Resources>
         <DockPanel >

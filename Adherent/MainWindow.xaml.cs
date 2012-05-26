@@ -46,7 +46,7 @@ namespace WpfApplication1
 
         private void configMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Configuration configWindow = new Configuration();
+            Config2 configWindow = new Config2();
             configWindow.Owner = this;
             configWindow.ShowDialog();
         }
@@ -147,13 +147,13 @@ namespace WpfApplication1
                     Grid currentSampleGrid = new Grid();
 
                     RowDefinition rowdef1 = new RowDefinition();
-                    rowdef1.Height = new GridLength(1, GridUnitType.Star);
+                    rowdef1.Height = new GridLength(2, GridUnitType.Star);
                     RowDefinition rowdef2 = new RowDefinition();
-                    rowdef2.Height = new GridLength(2, GridUnitType.Star);
+                    rowdef2.Height = new GridLength(1, GridUnitType.Star);
                     RowDefinition rowdef3 = new RowDefinition();
-                    rowdef3.Height = new GridLength(1, GridUnitType.Star);
+                    rowdef3.Height = new GridLength(2, GridUnitType.Star);
                     RowDefinition rowdef4 = new RowDefinition();
-                    rowdef4.Height = new GridLength(1, GridUnitType.Star);
+                    rowdef4.Height = new GridLength(2, GridUnitType.Star);
 
                     ColumnDefinition coldef1 = new ColumnDefinition();
                     coldef1.Width = new GridLength(4, GridUnitType.Star);
