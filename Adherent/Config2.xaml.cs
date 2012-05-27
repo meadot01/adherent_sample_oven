@@ -19,6 +19,7 @@ namespace WpfApplication1
     /// </summary>
     public partial class Config2 : Window
     {
+        private const string portConfigComboPrefix = "portComboBox";
         public Config2()
         {
             InitializeComponent();
@@ -60,17 +61,18 @@ namespace WpfApplication1
                     Grid.SetRow(stationLabelViewbox, 0);
 
                     ComboBox portComboBox = new ComboBox();
-                    portComboBox.Name = "portComboBox" + stationNumber;
+                    portComboBox.Name = portConfigComboPrefix + stationNumber;
                     portComboBox.ItemsSource = MccPortInformationAccessor.Instance.MccPortNameList;
-                    portComboBox.SelectedValue = null;
+                    portComboBox.SelectedItem = null;
                     if (sampleConfigDictionary.ContainsKey(stationNumber))
                     {
                         MccPortInformation portInfo = sampleConfigDictionary[stationNumber];
                         if (portInfo != null)
                         {
-                            portComboBox.SelectedValue = portInfo.Name;
+                            portComboBox.SelectedItem = portInfo.Name;
                         }
                     }
+                    portComboBox.SelectionChanged += Combobox_SelectionChanged;
                     currentSampleGrid.Children.Add(portComboBox);
                     Grid.SetColumn(portComboBox, 0);
                     Grid.SetRow(portComboBox, 1);
@@ -80,6 +82,41 @@ namespace WpfApplication1
                     Grid.SetRow(currentSampleGrid, y);
                     stationNumber--;
                 }
+            }
+        }
+
+        private void Combobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (sender is ComboBox)
+                {
+                    string newPortSelected = (e.AddedItems[0] as String);
+                    if (!String.IsNullOrWhiteSpace(newPortSelected))
+                    {
+                    ComboBox changedComboBox = sender as ComboBox;
+                    byte sampleChanged = byte.Parse(changedComboBox.Name.Substring(portConfigComboPrefix.Length));
+                    for (byte i = 1; i <= 30; i++)
+                    {
+                        if (i != sampleChanged)
+                        {
+                            Object tempObject = LogicalTreeHelper.FindLogicalNode(sampleConfigGrid, portConfigComboPrefix + i);
+                            if (tempObject is ComboBox)
+                            {
+                                ComboBox tempConfigCombo = tempObject as ComboBox;
+                                if (newPortSelected == tempConfigCombo.SelectedItem as string)
+                                {
+                                    tempConfigCombo.SelectedItem = null;
+                                }
+                            }
+                        }
+                    }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+             //   MessageBox.Show(ex);
             }
         }
     }
