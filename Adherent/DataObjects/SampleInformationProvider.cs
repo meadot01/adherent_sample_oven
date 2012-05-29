@@ -9,6 +9,7 @@ namespace WpfApplication1.DataObjects
 {
     public sealed class SampleInformationProvider
     {
+        private static string samplePropertyPrefix = "Sample";
         // SampleInformationProvider is a Singleton - it holds device configuration 
         // and status of each sample
         static readonly SampleInformationProvider _instance = new SampleInformationProvider();
@@ -33,7 +34,7 @@ namespace WpfApplication1.DataObjects
                         String portName = null;
                         try
                         {
-                            portName = Properties.Settings.Default["Sample" + i.ToString()].ToString();
+                            portName = Properties.Settings.Default[samplePropertyPrefix + i.ToString()] as string;
                         }
                         catch (System.Configuration.SettingsPropertyNotFoundException)
                         { }
@@ -47,7 +48,17 @@ namespace WpfApplication1.DataObjects
             }
         }
 
-       //     deviceConfigurationList.Add(new SampleInformation(1, null));
+        public void updateSampleSettingProperties(IDictionary<byte, string> sampleConfigurationDictionary)
+        {
+            foreach (var pair in sampleConfigurationDictionary)
+	        {
+                Properties.Settings.Default[samplePropertyPrefix + pair.Key] = pair.Value;
+            }
+            SampleConfigurationDictionary.Clear();
+        }
+
+
+
        
     }
  }

@@ -20,6 +20,7 @@ namespace WpfApplication1
     public partial class Config2 : Window
     {
         private const string portConfigComboPrefix = "portComboBox";
+        
         public Config2()
         {
             InitializeComponent();
@@ -29,6 +30,7 @@ namespace WpfApplication1
 
         private void addSampleConfigsToGrid()
         {
+            /* Seems easier to create the sample config grid programatically than usin xaml */
             IDictionary<byte, MccPortInformation> sampleConfigDictionary = SampleInformationProvider.Instance.SampleConfigurationDictionary;
 
             byte stationNumber = 30;
@@ -72,7 +74,7 @@ namespace WpfApplication1
                             portComboBox.SelectedItem = portInfo.Name;
                         }
                     }
-                    portComboBox.SelectionChanged += Combobox_SelectionChanged;
+                    portComboBox.SelectionChanged += PortCombobox_SelectionChanged;
                     currentSampleGrid.Children.Add(portComboBox);
                     Grid.SetColumn(portComboBox, 0);
                     Grid.SetRow(portComboBox, 1);
@@ -85,7 +87,12 @@ namespace WpfApplication1
             }
         }
 
-        private void Combobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void PortCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        /*
+         * When a port combobox selection is changed we loop through all the other
+         * port comboboxes and if it is a duplicate we clear the other entry.  No two
+         * samples should be set to use the same port.
+         */
         {
             try
             {
@@ -118,6 +125,49 @@ namespace WpfApplication1
             {
              //   MessageBox.Show(ex);
             }
+        }
+
+        private void saveButton_Click(object sender, RoutedEventArgs e)
+        {
+            IDictionary<byte,string> sampleSettingsDictionary = new Dictionary<byte, string>();
+            for (byte i = 1; i <= 30; i++)
+            {
+                Object tempObject = LogicalTreeHelper.FindLogicalNode(sampleConfigGrid, portConfigComboPrefix + i);
+                if (tempObject is ComboBox)
+                {
+                    ComboBox tempComboBox = tempObject as ComboBox;
+                    sampleSettingsDictionary[i] = tempComboBox.SelectedItem as String;
+                }
+            }
+            SampleInformationProvider.Instance.updateSampleSettingProperties(sampleSettingsDictionary);
+            this.Close();
+        }
+
+        private void cancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void removeEventSubscriptions()
+        {
+            /* Seems like I shouldnt have to do this but I have read stuff that says for
+             * WPF I should always unsubscribe from all events.
+             */
+            for (byte i = 1; i <= 30; i++)
+            {
+                Object tempObject = LogicalTreeHelper.FindLogicalNode(sampleConfigGrid, portConfigComboPrefix + i);
+                if (tempObject is ComboBox)
+                {
+                    ComboBox tempComboBox = tempObject as ComboBox;
+                    tempComboBox.SelectionChanged += PortCombobox_SelectionChanged;
+                }
+            }
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            removeEventSubscriptions();
         }
     }
 }
