@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
-namespace WpfApplication1
+namespace AdherentSampleOven
 {
     [Serializable]
     public class SampleInformation : INotifyPropertyChanged

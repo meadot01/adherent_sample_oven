@@ -1,7 +1,7 @@
-﻿<Window x:Class="WpfApplication1.Configuration"
+﻿<Window x:Class="AdherentSampleOven.Configuration"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:WpfApplication1.DataObjects"
+        xmlns:local="clr-namespace:AdherentSampleOven.DataObjects"
         Title="Configuration" Height="305" Width="557">
     <Window.Resources>
         <!-- create an instance of our DataProvider class -->
@@ -21,7 +21,7 @@
     </Window.Resources> 
     <Grid>
         <TextBox Height="23" HorizontalAlignment="Left" Margin="340,45,0,0" Name="temperatureTextBox" VerticalAlignment="Top" Width="120"  IsReadOnly="True" BorderThickness="0" Cursor="Arrow" />
-        <DataGrid Name="dataGrid1" ItemsSource="{Binding}" DataContext="{Binding SampleInformationList, Source={x:Static local:SampleInformationProvider.Instance}}" Margin="25,12,0,33" AutoGenerateColumns="False" HorizontalAlignment="Left">
+        <DataGrid Name="dataGrid1" ItemsSource="{Binding}" DataContext="{Binding SampleInformationList, Source={x:Static local:SettingsManager.Instance}}" Margin="25,12,0,33" AutoGenerateColumns="False" HorizontalAlignment="Left">
             
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Path=SampleNumber}" Header="Sample Number" IsReadOnly="True" ElementStyle="{StaticResource RightAlignStyle}" CanUserResize="False" />

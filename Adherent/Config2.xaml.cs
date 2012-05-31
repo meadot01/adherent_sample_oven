@@ -10,9 +10,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WpfApplication1.DataObjects;
+using AdherentSampleOven.DataObjects;
 
-namespace WpfApplication1
+namespace AdherentSampleOven
 {
     /// <summary>
     /// Interaction logic for Config2.xaml
@@ -31,7 +31,7 @@ namespace WpfApplication1
         private void addSampleConfigsToGrid()
         {
             /* Seems easier to create the sample config grid programatically than usin xaml */
-            IDictionary<byte, MccPortInformation> sampleConfigDictionary = SampleInformationProvider.Instance.SampleConfigurationDictionary;
+            IDictionary<byte, MccPortInformation> sampleConfigDictionary = SettingsManager.Instance.SampleConfigurationDictionary;
 
             byte stationNumber = 30;
             for (int y = 0; y < 6; y++)
@@ -139,7 +139,7 @@ namespace WpfApplication1
                     sampleSettingsDictionary[i] = tempComboBox.SelectedItem as String;
                 }
             }
-            SampleInformationProvider.Instance.updateSampleSettingProperties(sampleSettingsDictionary);
+            SettingsManager.Instance.updateSampleSettingProperties(sampleSettingsDictionary);
             this.Close();
         }
 

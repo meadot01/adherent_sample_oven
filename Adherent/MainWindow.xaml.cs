@@ -3,14 +3,19 @@ using System.Printing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using NLog;
 
-namespace WpfApplication1
+namespace AdherentSampleOven
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
+    
+    
     public partial class MainWindow : Window
     {
+        private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private DateTime startTime;
         private Boolean running = false;
         private System.Windows.Threading.DispatcherTimer dispatcherTimer;
@@ -18,7 +23,9 @@ namespace WpfApplication1
         public MainWindow()
         {
             InitializeComponent();
+            logger.Trace("After InitializeComponent");
             addStationControlToGrid();
+            logger.Trace("Added station control to grid");
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

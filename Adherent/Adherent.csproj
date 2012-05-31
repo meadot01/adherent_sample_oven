@@ -8,8 +8,8 @@
     <ProjectGuid>{A0316623-1EE3-4F8D-AE8B-D294A7FF236C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WpfApplication1</RootNamespace>
-    <AssemblyName>Adherent</AssemblyName>
+    <RootNamespace>AdherentSampleOven</RootNamespace>
+    <AssemblyName>AdherentSampleOven</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -65,6 +65,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MccDaq, Version=2.1.0.0, Culture=neutral, PublicKeyToken=a37eefcf5c6ca10a, processorArchitecture=MSIL" />
+    <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL" />
     <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -94,7 +95,7 @@
     </Compile>
     <Compile Include="DataObjects\MccPortInformationAccessor.cs" />
     <Compile Include="DataObjects\SampleInformation.cs" />
-    <Compile Include="DataObjects\SampleInformationProvider.cs" />
+    <Compile Include="DataObjects\SettingsManager.cs" />
     <Compile Include="Window1.xaml.cs">
       <DependentUpon>Window1.xaml</DependentUpon>
     </Compile>
@@ -144,6 +145,9 @@
     </EmbeddedResource>
     <None Include="Adherent_TemporaryKey.pfx" />
     <None Include="app.config" />
+    <None Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

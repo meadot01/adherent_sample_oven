@@ -13,9 +13,9 @@ using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Collections.Specialized;
 using System.Collections.ObjectModel;
-using WpfApplication1.DataObjects;
+using AdherentSampleOven.DataObjects;
 
-namespace WpfApplication1
+namespace AdherentSampleOven
 {
     /// <summary>
     /// Interaction logic for Configuration.xaml

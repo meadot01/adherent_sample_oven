@@ -5,23 +5,23 @@ using System.Linq;
 using System.Text;
 
 
-namespace WpfApplication1.DataObjects
+namespace AdherentSampleOven.DataObjects
 {
-    public sealed class SampleInformationProvider
+    public sealed class SettingsManager
     {
         private static string samplePropertyPrefix = "Sample";
         // SampleInformationProvider is a Singleton - it holds device configuration 
         // and status of each sample
-        static readonly SampleInformationProvider _instance = new SampleInformationProvider();
+        static readonly SettingsManager _instance = new SettingsManager();
         
         private IDictionary<byte, MccPortInformation> sampleConfigurationDictionary = new Dictionary<byte,MccPortInformation>();
 
-        public static SampleInformationProvider Instance
+        public static SettingsManager Instance
         {
             get { return _instance; }
         }
 
-        private SampleInformationProvider()
+        private SettingsManager()
         {
         }
         public IDictionary<byte, MccPortInformation> SampleConfigurationDictionary
