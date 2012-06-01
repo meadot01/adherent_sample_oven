@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="DataObjects\MccPortInformationAccessor.cs" />
     <Compile Include="DataObjects\SampleInformation.cs" />
+    <Compile Include="DataObjects\Settings.cs" />
     <Compile Include="DataObjects\SettingsManager.cs" />
     <Compile Include="Window1.xaml.cs">
       <DependentUpon>Window1.xaml</DependentUpon>

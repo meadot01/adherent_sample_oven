@@ -25,30 +25,6 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public byte tempBoardNumber {
-            get {
-                return ((byte)(this["tempBoardNumber"]));
-            }
-            set {
-                this["tempBoardNumber"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public byte dInBoardNumber {
-            get {
-                return ((byte)(this["dInBoardNumber"]));
-            }
-            set {
-                this["dInBoardNumber"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Port1A0")]
         public string Sample1 {
             get {
@@ -452,6 +428,42 @@ namespace AdherentSampleOven.Properties {
             }
             set {
                 this["Sample30"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public int tempBoard {
+            get {
+                return ((int)(this["tempBoard"]));
+            }
+            set {
+                this["tempBoard"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public byte tempPort {
+            get {
+                return ((byte)(this["tempPort"]));
+            }
+            set {
+                this["tempPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int dioBoard {
+            get {
+                return ((int)(this["dioBoard"]));
+            }
+            set {
+                this["dioBoard"] = value;
             }
         }
     }

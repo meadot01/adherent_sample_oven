@@ -4,8 +4,13 @@
         Title="Settings" Height="474" Width="607">
     <Grid>
             <DockPanel>
-            <Grid DockPanel.Dock="Top" Height="20">
-
+            <Grid DockPanel.Dock="Top" Height="60" >
+                <ComboBox Margin="121,20,429,16"  Name="tcBoardNumberCombo" />
+                <ComboBox Margin="0,20,258,16"  Name="tcPortNumberCombo" HorizontalAlignment="Right" Width="33" />
+                <ComboBox Margin="486,20,64,16"  Name="dioBordNumberCombo" />
+                <TextBlock Height="23" HorizontalAlignment="Left" Margin="6,20,0,0" Name="textBlock1" Text="Temperature Board#:" VerticalAlignment="Top" />
+                <TextBlock Height="23" HorizontalAlignment="Left" Margin="188,20,0,0" Name="textBlock2" Text="Temperature Port#:" VerticalAlignment="Top" />
+                <TextBlock Height="23" HorizontalAlignment="Left" Margin="418,20,0,0" Name="textBlock3" Text="DIO Board#:" VerticalAlignment="Top" />
             </Grid>
             <Grid DockPanel.Dock="Bottom" Height="52">
                 <Button Content="Save" HorizontalAlignment="Right" Margin="0,20,24,9" Name="saveButton" Width="75" IsDefault="True" Click="saveButton_Click" />

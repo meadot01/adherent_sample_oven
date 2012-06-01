@@ -31,7 +31,28 @@ namespace AdherentSampleOven
         private void addSampleConfigsToGrid()
         {
             /* Seems easier to create the sample config grid programatically than usin xaml */
-            IDictionary<byte, MccPortInformation> sampleConfigDictionary = SettingsManager.Instance.SampleConfigurationDictionary;
+            Settings settings = SettingsManager.Instance.ApplicationSettings;
+            IList<int> intList = new List<int>();
+            for (int i = 1; i <100; i++)
+            {
+                intList.Add(i);
+            }
+            IList<byte> byteList = new List<byte>();
+            for (byte i = 0; i <=7; i++)
+            {
+                byteList.Add(i);
+            }
+
+            tcBoardNumberCombo.ItemsSource = intList;
+            tcBoardNumberCombo.SelectedItem = settings.TempBoardNumber;
+
+            tcPortNumberCombo.ItemsSource = byteList;
+            tcPortNumberCombo.SelectedItem = settings.TempPortNumber;
+
+            dioBordNumberCombo.ItemsSource = intList;
+            dioBordNumberCombo.SelectedItem = settings.DIOBoardNumber;
+
+
 
             byte stationNumber = 30;
             for (int y = 0; y < 6; y++)
@@ -66,9 +87,9 @@ namespace AdherentSampleOven
                     portComboBox.Name = portConfigComboPrefix + stationNumber;
                     portComboBox.ItemsSource = MccPortInformationAccessor.Instance.MccPortNameList;
                     portComboBox.SelectedItem = null;
-                    if (sampleConfigDictionary.ContainsKey(stationNumber))
+                    if (settings.SampleConfigurationDictionary.ContainsKey(stationNumber))
                     {
-                        MccPortInformation portInfo = sampleConfigDictionary[stationNumber];
+                        MccPortInformation portInfo = settings.SampleConfigurationDictionary[stationNumber];
                         if (portInfo != null)
                         {
                             portComboBox.SelectedItem = portInfo.Name;
@@ -129,17 +150,22 @@ namespace AdherentSampleOven
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            IDictionary<byte,string> sampleSettingsDictionary = new Dictionary<byte, string>();
+            Settings updatedSettings = new Settings();
+            updatedSettings.TempBoardNumber = (int)tcBoardNumberCombo.SelectedItem;
+            updatedSettings.TempPortNumber = (byte)tcPortNumberCombo.SelectedItem;
+            updatedSettings.DIOBoardNumber = (int)dioBordNumberCombo.SelectedItem; 
+            IDictionary<byte,MccPortInformation> sampleSettingsDictionary = new Dictionary<byte, MccPortInformation>();
             for (byte i = 1; i <= 30; i++)
             {
                 Object tempObject = LogicalTreeHelper.FindLogicalNode(sampleConfigGrid, portConfigComboPrefix + i);
                 if (tempObject is ComboBox)
                 {
                     ComboBox tempComboBox = tempObject as ComboBox;
-                    sampleSettingsDictionary[i] = tempComboBox.SelectedItem as String;
+                    sampleSettingsDictionary[i] = MccPortInformationAccessor.Instance.portForName( tempComboBox.SelectedItem as String);
                 }
             }
-            SettingsManager.Instance.updateSampleSettingProperties(sampleSettingsDictionary);
+            updatedSettings.SampleConfigurationDictionary = sampleSettingsDictionary;
+         //   SettingsManager.Instance.updateSampleSettingProperties(sampleSettingsDictionary);
             this.Close();
         }
 
