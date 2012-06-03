@@ -466,5 +466,17 @@ namespace AdherentSampleOven.Properties {
                 this["dioBoard"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool temperatureFormatCelsius {
+            get {
+                return ((bool)(this["temperatureFormatCelsius"]));
+            }
+            set {
+                this["temperatureFormatCelsius"] = value;
+            }
+        }
     }
 }

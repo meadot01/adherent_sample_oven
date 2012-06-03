@@ -52,6 +52,15 @@ namespace AdherentSampleOven
             dioBordNumberCombo.ItemsSource = intList;
             dioBordNumberCombo.SelectedItem = settings.DIOBoardNumber;
 
+            if (settings.TemperatureFormat == TemperatureFormatEnum.Farenheit)
+            {
+                farenheitRadioButton.IsChecked = true;
+            }
+            else
+            {
+                celsiusRadioButton.IsChecked = true;
+            }
+
 
 
             byte stationNumber = 30;
@@ -153,7 +162,16 @@ namespace AdherentSampleOven
             Settings updatedSettings = new Settings();
             updatedSettings.TempBoardNumber = (int)tcBoardNumberCombo.SelectedItem;
             updatedSettings.TempPortNumber = (byte)tcPortNumberCombo.SelectedItem;
-            updatedSettings.DIOBoardNumber = (int)dioBordNumberCombo.SelectedItem; 
+            updatedSettings.DIOBoardNumber = (int)dioBordNumberCombo.SelectedItem;
+            if (farenheitRadioButton.IsChecked == true)
+            {
+                updatedSettings.TemperatureFormat = TemperatureFormatEnum.Farenheit;
+            }
+            else
+            {
+                updatedSettings.TemperatureFormat = TemperatureFormatEnum.Celsius;
+            }
+
             IDictionary<byte,MccPortInformation> sampleSettingsDictionary = new Dictionary<byte, MccPortInformation>();
             for (byte i = 1; i <= 30; i++)
             {
@@ -166,6 +184,8 @@ namespace AdherentSampleOven
             }
             updatedSettings.SampleConfigurationDictionary = sampleSettingsDictionary;
          //   SettingsManager.Instance.updateSampleSettingProperties(sampleSettingsDictionary);
+            SettingsManager.Instance.updateProperties(updatedSettings);
+            
             this.Close();
         }
 
