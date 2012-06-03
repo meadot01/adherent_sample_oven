@@ -13,11 +13,12 @@ namespace AdherentSampleOven.DataObjects
         private static string tempBoardNumberPropertyName = "tempBoard";
         private static string tempPortNumberPropertyName = "tempPort";
         private static string dioBoardNumberPropertyName = "dioBoard";
+        private static string tempFormatCelsiusPropertyName = "temperatureFormatCelsius";
 
         // SampleInformationProvider is a Singleton - it holds device configuration 
         // and status of each sample
         static readonly SettingsManager _instance = new SettingsManager();
-        
+
         public static SettingsManager Instance
         {
             get { return _instance; }
@@ -29,21 +30,22 @@ namespace AdherentSampleOven.DataObjects
 
         public Settings ApplicationSettings
         {
-            get {
+            get
+            {
                 Settings applicationSettings = new Settings();
                 IDictionary<byte, MccPortInformation> sampleConfigDict = new Dictionary<byte, MccPortInformation>();
                 for (byte i = 1; i <= 30; i++)
+                {
+                    String portName = null;
+                    try
                     {
-                        String portName = null;
-                        try
-                        {
-                            portName = Properties.Settings.Default[samplePropertyPrefix + i.ToString()] as string;
-                        }
-                        catch (System.Configuration.SettingsPropertyNotFoundException)
-                        { }
-                        MccPortInformation portInfo = MccPortInformationAccessor.Instance.portForName(portName);
-                        sampleConfigDict.Add(i,portInfo);
+                        portName = Properties.Settings.Default[samplePropertyPrefix + i.ToString()] as string;
                     }
+                    catch (System.Configuration.SettingsPropertyNotFoundException)
+                    { }
+                    MccPortInformation portInfo = MccPortInformationAccessor.Instance.portForName(portName);
+                    sampleConfigDict.Add(i, portInfo);
+                }
                 applicationSettings.SampleConfigurationDictionary = sampleConfigDict;
                 Object tempBoardNumber = Properties.Settings.Default[tempBoardNumberPropertyName];
                 if (tempBoardNumber == null)
@@ -72,19 +74,59 @@ namespace AdherentSampleOven.DataObjects
                 {
                     applicationSettings.DIOBoardNumber = (int)dioBoardNumber;
                 }
-                return applicationSettings;
+                Object tempFormatCelsius = Properties.Settings.Default[tempFormatCelsiusPropertyName];
+                if (tempFormatCelsius == null)
+                {
+                    applicationSettings.TemperatureFormat = TemperatureFormatEnum.Celsius;
                 }
-                
+                else
+                {
+                    if ((bool)tempFormatCelsius)
+                    {
+                        applicationSettings.TemperatureFormat = TemperatureFormatEnum.Celsius;
+                    }
+                    else
+                    {
+                        applicationSettings.TemperatureFormat = TemperatureFormatEnum.Farenheit;
+                    }
+                }
+
+                return applicationSettings;
             }
+
         }
 
-        //public void updateSampleSettingProperties(IDictionary<byte, string> sampleConfigurationDictionary)
-        //{
-        //    foreach (var pair in sampleConfigurationDictionary)
-        //    {
-        //        Properties.Settings.Default[samplePropertyPrefix + pair.Key] = pair.Value;
-        //    }
-        //    SampleConfigurationDictionary.Clear();
-        //}
+
+        public void updateProperties(Settings settings)
+        {
+            if (settings != null)
+            {
+                if (settings.SampleConfigurationDictionary != null)
+                {
+                    foreach (var pair in settings.SampleConfigurationDictionary)
+                    {
+                        string portName = null;
+                        if (pair.Value != null)
+                        {
+                            portName = pair.Value.Name;
+                        }
+                        Properties.Settings.Default[samplePropertyPrefix + pair.Key] = portName;
+                    }
+                }
+            }
+            Properties.Settings.Default[tempBoardNumberPropertyName] = settings.TempBoardNumber;
+            Properties.Settings.Default[tempPortNumberPropertyName] = settings.TempPortNumber;
+            Properties.Settings.Default[dioBoardNumberPropertyName] = settings.DIOBoardNumber;
+            if (settings.TemperatureFormat == TemperatureFormatEnum.Farenheit)
+            {
+                Properties.Settings.Default[tempFormatCelsiusPropertyName] = false;
+            }
+            else
+            {
+                Properties.Settings.Default[tempFormatCelsiusPropertyName] = true;
+            }
+
+        }
+    }
 }
 
