@@ -97,6 +97,8 @@
     <Compile Include="DataObjects\SampleInformation.cs" />
     <Compile Include="DataObjects\Settings.cs" />
     <Compile Include="DataObjects\SettingsManager.cs" />
+    <Compile Include="HardwareInterface\MccDeviceReader.cs" />
+    <Compile Include="HardwareInterface\MccDeviceResults.cs" />
     <Compile Include="Window1.xaml.cs">
       <DependentUpon>Window1.xaml</DependentUpon>
     </Compile>
@@ -178,6 +180,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
