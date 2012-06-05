@@ -4,6 +4,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using NLog;
+using AdherentSampleOven.DataObjects;
+using AdherentSampleOven.HardwareInterface;
+
 
 namespace AdherentSampleOven
 {
@@ -19,6 +22,8 @@ namespace AdherentSampleOven
         private DateTime startTime;
         private Boolean running = false;
         private System.Windows.Threading.DispatcherTimer dispatcherTimer;
+        private DataObjects.Settings settings = null;
+        private HardwareInterface.MccDeviceReader deviceReader = null;
 
         public MainWindow()
         {
@@ -258,6 +263,8 @@ namespace AdherentSampleOven
             else
             {
                 startTime = DateTime.Now;
+                settings = DataObjects.SettingsManager.Instance.ApplicationSettings;
+                deviceReader = new HardwareInterface.MccDeviceReader(settings);
                 dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
                 dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
                 dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
@@ -273,6 +280,15 @@ namespace AdherentSampleOven
         {
             TimeSpan elapsedTime = startTime - DateTime.Now;
             timeFromStartValue.Text = elapsedTime.ToString(@"dd\.hh\:mm\:ss");
+            MccDeviceResults results = deviceReader.readDevices();
+            if (settings.TemperatureFormat == TemperatureFormatEnum.Farenheit)
+            {
+                currentTemperatureValue.Text = System.Math.Round(results.Temperature) + "F";
+            } else
+            {
+                currentTemperatureValue.Text = System.Math.Round(results.Temperature) + "C";
+            }
+
         }
 
 
