@@ -33,7 +33,7 @@ namespace AdherentSampleOven
             /* Seems easier to create the sample config grid programatically than usin xaml */
             Settings settings = SettingsManager.Instance.ApplicationSettings;
             IList<int> intList = new List<int>();
-            for (int i = 1; i <100; i++)
+            for (int i = 0; i <100; i++)
             {
                 intList.Add(i);
             }
