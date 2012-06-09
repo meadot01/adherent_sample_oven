@@ -27,15 +27,25 @@ namespace AdherentSampleOven.HardwareInterface
             {
                 tempScale = TempScale.Celsius;
             }
+        //    MccDaq.ErrorInfo ULStat = MccDaq.MccService.ErrHandling(MccDaq.ErrorReporting.PrintAll, MccDaq.ErrorHandling.StopAll);
+
         }
 
         public MccDeviceResults readDevices()
         {
             float tempValue;
-            MccDaq.ErrorInfo ULStat = tempBoard.TIn(settings.TempPortNumber, tempScale, out tempValue, termocoupleOptions);
-            MccDeviceResults results = new MccDeviceResults();
-            results.Temperature = tempValue;
-            return results;
+            MccDaq.ErrorInfo ulStat = tempBoard.TIn(settings.TempPortNumber, tempScale, out tempValue, termocoupleOptions);
+            if (ulStat.Value == ErrorInfo.ErrorCode.NoErrors)
+            {
+                MccDeviceResults results = new MccDeviceResults();
+                results.Temperature = tempValue;
+                return results;
+            }
+            else
+            {
+                return null;
+            }
+
         }
     }
 }

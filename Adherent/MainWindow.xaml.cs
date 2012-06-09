@@ -19,11 +19,10 @@ namespace AdherentSampleOven
     public partial class MainWindow : Window
     {
         private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
-        private DateTime startTime;
         private Boolean running = false;
         private System.Windows.Threading.DispatcherTimer dispatcherTimer;
         private DataObjects.Settings settings = null;
-        private HardwareInterface.MccDeviceReader deviceReader = null;
+        private HardwareInterface.SampleOvenManager ovenManager;
 
         public MainWindow()
         {
@@ -262,9 +261,8 @@ namespace AdherentSampleOven
             }
             else
             {
-                startTime = DateTime.Now;
                 settings = DataObjects.SettingsManager.Instance.ApplicationSettings;
-                deviceReader = new HardwareInterface.MccDeviceReader(settings);
+                ovenManager = new SampleOvenManager(settings);
                 dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
                 dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
                 dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
@@ -278,15 +276,14 @@ namespace AdherentSampleOven
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
-            TimeSpan elapsedTime = startTime - DateTime.Now;
-            timeFromStartValue.Text = elapsedTime.ToString(@"dd\.hh\:mm\:ss");
-            MccDeviceResults results = deviceReader.readDevices();
+            ovenManager.updateResults();
+            timeFromStartValue.Text = ovenManager.ElapsedTime.ToString(@"dd\.hh\:mm\:ss");
             if (settings.TemperatureFormat == TemperatureFormatEnum.Farenheit)
             {
-                currentTemperatureValue.Text = System.Math.Round(results.Temperature) + "F";
+                currentTemperatureValue.Text = System.Math.Round(ovenManager.OvenTemperature) + "°F";
             } else
             {
-                currentTemperatureValue.Text = System.Math.Round(results.Temperature) + "C";
+                currentTemperatureValue.Text = System.Math.Round(ovenManager.OvenTemperature) + "°C";
             }
 
         }

@@ -99,6 +99,7 @@
     <Compile Include="DataObjects\SettingsManager.cs" />
     <Compile Include="HardwareInterface\MccDeviceReader.cs" />
     <Compile Include="HardwareInterface\MccDeviceResults.cs" />
+    <Compile Include="HardwareInterface\SampleOvenManager.cs" />
     <Compile Include="Window1.xaml.cs">
       <DependentUpon>Window1.xaml</DependentUpon>
     </Compile>
