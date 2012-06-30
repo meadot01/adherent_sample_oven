@@ -478,5 +478,17 @@ namespace AdherentSampleOven.Properties {
                 this["temperatureFormatCelsius"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool switchDefaultClosed {
+            get {
+                return ((bool)(this["switchDefaultClosed"]));
+            }
+            set {
+                this["switchDefaultClosed"] = value;
+            }
+        }
     }
 }
