@@ -13,6 +13,33 @@ namespace AdherentSampleOven.HardwareInterface
             set;
         }
 
+        private IDictionary<byte,bool>sampleValues = new Dictionary<byte, bool>();
+
+        public IDictionary<byte, bool> SampleValues
+        {
+            get
+            {
+                return sampleValues;
+            }
+        }
+
+        public String ErrorString
+        {
+            get;
+            set;
+        }
+
+        public bool ErrorCondition
+        {
+            get;
+            set;
+        }
+
+        public bool RunCompleted
+        {
+            get;
+            set;
+        }
 
     }
 }
