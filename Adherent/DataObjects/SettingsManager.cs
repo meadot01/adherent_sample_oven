@@ -14,6 +14,7 @@ namespace AdherentSampleOven.DataObjects
         private static string tempPortNumberPropertyName = "tempPort";
         private static string dioBoardNumberPropertyName = "dioBoard";
         private static string tempFormatCelsiusPropertyName = "temperatureFormatCelsius";
+        private static string switchDefaultClosedPropertyName = "switchDefaultClosed";
 
         // SampleInformationProvider is a Singleton - it holds device configuration 
         // and status of each sample
@@ -90,6 +91,16 @@ namespace AdherentSampleOven.DataObjects
                         applicationSettings.TemperatureFormat = TemperatureFormatEnum.Farenheit;
                     }
                 }
+                Object switchDefaultClosed = Properties.Settings.Default[switchDefaultClosedPropertyName];
+                if (switchDefaultClosed == null)
+                {
+                    applicationSettings.SwitchDefaultClosed = false;
+                }
+                else
+                {
+                    applicationSettings.SwitchDefaultClosed = (bool)switchDefaultClosed;
+                }
+
 
                 return applicationSettings;
             }
@@ -101,6 +112,7 @@ namespace AdherentSampleOven.DataObjects
         {
             if (settings != null)
             {
+                settings.clearPortsUsed();
                 if (settings.SampleConfigurationDictionary != null)
                 {
                     foreach (var pair in settings.SampleConfigurationDictionary)
@@ -113,17 +125,17 @@ namespace AdherentSampleOven.DataObjects
                         Properties.Settings.Default[samplePropertyPrefix + pair.Key] = portName;
                     }
                 }
-            }
-            Properties.Settings.Default[tempBoardNumberPropertyName] = settings.TempBoardNumber;
-            Properties.Settings.Default[tempPortNumberPropertyName] = settings.TempPortNumber;
-            Properties.Settings.Default[dioBoardNumberPropertyName] = settings.DIOBoardNumber;
-            if (settings.TemperatureFormat == TemperatureFormatEnum.Farenheit)
-            {
-                Properties.Settings.Default[tempFormatCelsiusPropertyName] = false;
-            }
-            else
-            {
-                Properties.Settings.Default[tempFormatCelsiusPropertyName] = true;
+                Properties.Settings.Default[tempBoardNumberPropertyName] = settings.TempBoardNumber;
+                Properties.Settings.Default[tempPortNumberPropertyName] = settings.TempPortNumber;
+                Properties.Settings.Default[dioBoardNumberPropertyName] = settings.DIOBoardNumber;
+                if (settings.TemperatureFormat == TemperatureFormatEnum.Farenheit)
+                {
+                    Properties.Settings.Default[tempFormatCelsiusPropertyName] = false;
+                }
+                else
+                {
+                    Properties.Settings.Default[tempFormatCelsiusPropertyName] = true;
+                }
             }
 
         }
