@@ -25,6 +25,14 @@ namespace AdherentSampleOven.HardwareInterface
 
         private IDictionary<byte, SampleData> sampleDictionary = new Dictionary<byte, SampleData>();
 
+        public IDictionary<byte, SampleData> SampleDictionary
+        {
+            get
+            {
+                return sampleDictionary;
+            }
+        }
+
         private DateTime startTime;
         private MccDeviceReader deviceReader;
 
@@ -32,7 +40,8 @@ namespace AdherentSampleOven.HardwareInterface
         {
             get
             {
-                return startTime - DateTime.Now;
+                return DateTime.Now - startTime;
+                //return new DateTime(2012, 6, 23) - startTime;
             }
         }
 
@@ -42,6 +51,20 @@ namespace AdherentSampleOven.HardwareInterface
             private set;
         }
 
+        public String StatusMessage
+        {
+            get;
+            private set;
+        }
+
+        private bool runCompleted = false;
+        public bool RunCompleted
+        {
+            get
+            {
+                return runCompleted;
+            }
+        }
 
         private SampleOvenManager()
         {
@@ -56,7 +79,27 @@ namespace AdherentSampleOven.HardwareInterface
         public void updateResults()
         {
             MccDeviceResults results = deviceReader.readDevices();
-            OvenTemperature = results.Temperature;
+            if (results.ErrorCondition)
+            {
+                StatusMessage = results.ErrorString;
+            }
+            else
+            {
+                StatusMessage = ""; ;
+                OvenTemperature = results.Temperature;
+                runCompleted = results.RunCompleted;
+                foreach (var sampleValue in results.SampleValues)
+                {
+                    if (!sampleValue.Value)
+                    {
+                        if (!sampleDictionary.ContainsKey(sampleValue.Key))
+                        {
+                            sampleDictionary[sampleValue.Key] = new SampleData(results.Temperature, ElapsedTime);
+                        }
+                    }
+                }
+
+            }
         }
 
     }
