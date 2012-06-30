@@ -9,6 +9,7 @@ namespace AdherentSampleOven.DataObjects
 
     public class Settings
     {
+        private ISet<MccDaq.DigitalPortType> portsUsed;
         public IDictionary<byte, MccPortInformation> SampleConfigurationDictionary
         {
             get;
@@ -38,6 +39,36 @@ namespace AdherentSampleOven.DataObjects
             get;
             set;
         }
+
+        public bool SwitchDefaultClosed
+        {
+            get;
+            set;
+        }
+
+
+
+        public ISet<MccDaq.DigitalPortType> getPortsUsed()
+        {
+            if (portsUsed == null)
+            {
+                portsUsed = new SortedSet<MccDaq.DigitalPortType>();
+                foreach (var pair in SampleConfigurationDictionary)
+                {
+                    if (pair.Value != null)
+                    {
+                        portsUsed.Add(pair.Value.PortType);
+                    }
+                }
+            }
+            return portsUsed;
+        }
+
+        public void clearPortsUsed()
+        {
+            portsUsed = null;
+        }
+
 
 
     }
