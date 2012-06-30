@@ -26,8 +26,16 @@
           MethodName="getDeviceConfigurationList"/>
 
         <!-- define the method which is invoked to obtain our data -->
+
+        <!-- style used on text in status bar to show elipses (...) when text is cut off -->
+        <Style TargetType="TextBlock" x:Key="StatusBarTextBlock">
+            <Setter Property="TextWrapping" Value="NoWrap" />
+            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+            <Setter Property="Padding" Value="2,0" />
+        </Style>
+
     </Window.Resources>
-        <DockPanel >
+    <DockPanel >
         <Menu DockPanel.Dock ="Top" Height="23" HorizontalAlignment="Stretch" Name="menu1" VerticalAlignment="Top" Width="Auto">
             <MenuItem Header="File">
                 <MenuItem Header="Print..." Name="printMenuItem" Click="printMenuItem_Click" />
@@ -38,15 +46,19 @@
                 <MenuItem Header="Config..." Name="configMenuItem" Click="configMenuItem_Click" />
             </MenuItem>
         </Menu>
+        <StatusBar DockPanel.Dock ="Bottom" Grid.Row="5" Height="23" HorizontalAlignment="Stretch" Name="statusBar" VerticalAlignment="Top" Width="Auto" >
+            <TextBlock Style="{StaticResource StatusBarTextBlock}" Name="statusText" />
+        </StatusBar>
         <DockPanel DockPanel.Dock ="Top" Height="120px" >
             <Grid DockPanel.Dock ="Left"></Grid>
             <Grid DockPanel.Dock ="Right">
-                <Grid>
+                <Grid Visibility="Visible">
                     <TextBlock HorizontalAlignment="Right"  Name="timeFromStartLabel" Text="Time From Start" Margin="0,15,61,0" Height="20" VerticalAlignment="Top" />
                     <TextBlock HorizontalAlignment="Right" Margin="0,30,34,0" Name="timeFromStartValue" Text="time" Width="111" Height="20"  VerticalAlignment="Top" FontWeight="Bold" />
                     <TextBlock HorizontalAlignment="Right"  Name="currentTemperatureLabel" Text="Current Temperature" Margin="0,45,34,0" Height="20"  VerticalAlignment="Top" />
                     <TextBlock HorizontalAlignment="Right" Margin="0,60,34,0" Name="currentTemperatureValue" Text="temp" Width="111" Height="20"  VerticalAlignment="Top" FontWeight="Bold" />
-                    <Button Content="Start" Height="54" HorizontalAlignment="Left" Margin="174,30,0,0" Name="startStopButton" VerticalAlignment="Top" Width="116" Click="startStopButton_Click" FontSize="16" />
+                    <Button Content="Start" Height="54" HorizontalAlignment="Left" Margin="6,30,0,0" Name="startStopButton" VerticalAlignment="Top" Width="116" Click="startStopButton_Click" FontSize="16" />
+                    <TextBlock Height="29" HorizontalAlignment="Left" Margin="355,36,0,0" Name="runCompletedText" Text="Run Completed" VerticalAlignment="Top" FontSize="22" Foreground="Blue" Width="155" Visibility="Hidden" />
                 </Grid>
             </Grid>
         </DockPanel>

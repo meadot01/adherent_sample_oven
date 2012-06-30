@@ -30,6 +30,9 @@ namespace AdherentSampleOven
             logger.Trace("After InitializeComponent");
             addStationControlToGrid();
             logger.Trace("Added station control to grid");
+            dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+            logger.Trace("Timer created");
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -51,7 +54,7 @@ namespace AdherentSampleOven
             //this.temperatureTextBlock.Text=temp.ToString("0.00");
          //   CommentDock.Background = Brushes.BurlyWood;
 
-
+            logger.Trace("Wndow Loaded");
 
         }
 
@@ -254,20 +257,25 @@ namespace AdherentSampleOven
             } */
             if (running)
             {
+                logger.Trace("Stopping");
                 dispatcherTimer.Stop();
-                dispatcherTimer = null;
+              //  dispatcherTimer = null;
                 startStopButton.Content = "Start";
                 running = false;
             }
             else
             {
+                logger.Trace("1");
                 settings = DataObjects.SettingsManager.Instance.ApplicationSettings;
+                logger.Trace("2");
                 ovenManager = new SampleOvenManager(settings);
-                dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+                logger.Trace("3");
                 dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-                dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+                logger.Trace("4");
                 dispatcherTimer.Start();
+                logger.Trace("5");
                 startStopButton.Content = "Stop";
+                logger.Trace("6");
                 running = true;
             }
             
@@ -276,8 +284,11 @@ namespace AdherentSampleOven
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
+            logger.Trace("Timer Tick");
             ovenManager.updateResults();
-            timeFromStartValue.Text = ovenManager.ElapsedTime.ToString(@"dd\.hh\:mm\:ss");
+            timeFromStartValue.Text = ovenManager.ElapsedTime.ToString(@"hh\:mm\:ss");
+            statusText.Text = ovenManager.StatusMessage;
+            statusText.ToolTip = ovenManager.StatusMessage;
             if (settings.TemperatureFormat == TemperatureFormatEnum.Farenheit)
             {
                 currentTemperatureValue.Text = System.Math.Round(ovenManager.OvenTemperature) + "°F";
@@ -285,8 +296,70 @@ namespace AdherentSampleOven
             {
                 currentTemperatureValue.Text = System.Math.Round(ovenManager.OvenTemperature) + "°C";
             }
+            for (byte i = 0; i <= 30; i++)
+            {
+                if (ovenManager.SampleDictionary.ContainsKey(i))
+                {
+                    updateSampleBlock(i, ovenManager.SampleDictionary[i]);
+                }
+                else
+                {
+                    updateSampleBlock(i, null);
+                }
+            }
+            if (ovenManager.RunCompleted)
+            {
+                runCompletedText.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                runCompletedText.Visibility = Visibility.Hidden;
+            }
+            //foreach (var sample in ovenManager.SampleDictionary)
+            //{
+            //    updateSampleBlock(sample.Key, sample.Value);
+            //}
 
         }
+
+        private void updateSampleBlock(byte sampleNumber, SampleOvenManager.SampleData? sampleData)
+        {
+            Object timeObject = LogicalTreeHelper.FindLogicalNode(sampleGrid, "elapsedTimeValueText" + sampleNumber);
+            if (timeObject is TextBlock)
+            {
+                TextBlock timeTextBlock = timeObject as TextBlock;
+                if (sampleData.HasValue)
+                {
+                    timeTextBlock.Text = sampleData.Value.finalTime.ToString(@"hh\:mm");
+                }
+                else
+                {
+                    timeTextBlock.Text = "";
+                }
+            }
+            Object tempObject = LogicalTreeHelper.FindLogicalNode(sampleGrid, "temperatureValueText" + sampleNumber);
+            if (tempObject is TextBlock)
+            {
+                TextBlock elapsedTemperatureTextBlock = tempObject as TextBlock;
+                if (sampleData.HasValue)
+                {
+                    if (settings.TemperatureFormat == TemperatureFormatEnum.Farenheit)
+                    {
+                        elapsedTemperatureTextBlock.Text = System.Math.Round(sampleData.Value.finalTemp) + "°F";
+                    }
+                    else
+                    {
+                        elapsedTemperatureTextBlock.Text = System.Math.Round(sampleData.Value.finalTemp) + "°C";
+                    }
+                }
+                else
+                {
+                    elapsedTemperatureTextBlock.Text = "";
+                }
+            }
+        }
+
+
 
 
 
