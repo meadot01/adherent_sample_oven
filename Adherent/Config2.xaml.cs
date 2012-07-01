@@ -20,6 +20,7 @@ namespace AdherentSampleOven
     public partial class Config2 : Window
     {
         private const string portConfigComboPrefix = "portComboBox";
+        private bool handleComboSelection = true;
         
         public Config2()
         {
@@ -124,8 +125,11 @@ namespace AdherentSampleOven
          * samples should be set to use the same port.
          */
         {
+            if (handleComboSelection)
+            {
             try
             {
+     
                 if (sender is ComboBox)
                 {
                     string newPortSelected = (e.AddedItems[0] as String);
@@ -133,6 +137,7 @@ namespace AdherentSampleOven
                     {
                     ComboBox changedComboBox = sender as ComboBox;
                     byte sampleChanged = byte.Parse(changedComboBox.Name.Substring(portConfigComboPrefix.Length));
+                    bool duplicateFound = false;
                     for (byte i = 1; i <= 30; i++)
                     {
                         if (i != sampleChanged)
@@ -143,7 +148,32 @@ namespace AdherentSampleOven
                                 ComboBox tempConfigCombo = tempObject as ComboBox;
                                 if (newPortSelected == tempConfigCombo.SelectedItem as string)
                                 {
-                                    tempConfigCombo.SelectedItem = null;
+                                    if (duplicateFound)
+                                    {
+                                        tempConfigCombo.SelectedItem = null;
+                                    }
+                                    else
+                                    {
+                                        duplicateFound = true;
+                                        MessageBoxResult result = MessageBox.Show(this, "Duplicate Port, keep this selection (duplicates will be cleared)?",
+     "Confirmation", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                                        if (result == MessageBoxResult.OK)
+                                        {
+                                            tempConfigCombo.SelectedItem = null;
+                                        }
+                                        else
+                                        {
+                                            handleComboSelection = false;
+                                            if (e.RemovedItems.Count == 0)
+                                            {
+                                                changedComboBox.SelectedItem = null;
+                                            }
+                                            else
+                                            {
+                                                changedComboBox.SelectedItem = e.RemovedItems[0];
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -155,6 +185,8 @@ namespace AdherentSampleOven
             {
              //   MessageBox.Show(ex);
             }
+            }
+            handleComboSelection = true;
         }
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
