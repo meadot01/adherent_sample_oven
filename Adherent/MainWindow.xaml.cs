@@ -37,23 +37,6 @@ namespace AdherentSampleOven
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-         //   MccDaq.MccBoard DaqBoard = new MccDaq.MccBoard(0);
-         //   MccDaq.DigitalLogicState logicState;
-
-         //   DaqBoard.DConfigBit(MccDaq.DigitalPortType.FirstPortA, 0, MccDaq.DigitalPortDirection.DigitalIn);
-         //   MccDaq.ErrorInfo errorInfo = DaqBoard.DBitIn(MccDaq.DigitalPortType.FirstPortA, 0, out logicState);
-
-         //   byte tempBoardNumber = Properties.Settings.Default.tempBoardNumber;
-         //   this.temperatureTextBlock.Text = logicState.ToString();
-
-           // Properties.Settings.Default[“tempBoardNumber”] = 1;
-
-            //float temp=0.0f;
-            //DaqBoard.TIn(0, MccDaq.TempScale.Fahrenheit, out temp, MccDaq.ThermocoupleOptions.Filter);
-
-            //this.temperatureTextBlock.Text=temp.ToString("0.00");
-         //   CommentDock.Background = Brushes.BurlyWood;
-
             logger.Trace("Wndow Loaded");
 
         }
@@ -65,22 +48,6 @@ namespace AdherentSampleOven
             configWindow.ShowDialog();
         }
 
-        private void doSomethingMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            Object timeObject = LogicalTreeHelper.FindLogicalNode(sampleGrid, "elapsedTimeValueText" + 3);
-            if (timeObject is TextBlock)
-            {
-                TextBlock timeTextBlock = timeObject as TextBlock;
-                timeTextBlock.Text = "23:32:11";
-            }
-            TextBlock tempTextBlock = (TextBlock)sampleGrid.FindName("temperatureValueText" + 3);
-            Object tempObject = LogicalTreeHelper.FindLogicalNode(sampleGrid, "temperatureValueText" + 3);
-            if (tempObject is TextBlock)
-            {
-                TextBlock elapsedTemperatureTextBlock = tempObject as TextBlock;
-                elapsedTemperatureTextBlock.Text = "32.5F";
-            } 
-        }
 
         private void printMenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -108,11 +75,6 @@ namespace AdherentSampleOven
 
                 printDlg.PrintVisual(sampleGrid, "Test Print Sample Grid");
             }
-        }
-
-        private void dataGrid1_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
 
         private void addStationControlToGrid()
@@ -159,6 +121,7 @@ namespace AdherentSampleOven
                 {
 
                     Grid currentSampleGrid = new Grid();
+                    currentSampleGrid.Name = "stationGrid" + stationNumber;
 
                     RowDefinition rowdef1 = new RowDefinition();
                     rowdef1.Height = new GridLength(2, GridUnitType.Star);
@@ -242,44 +205,56 @@ namespace AdherentSampleOven
 
         private void startStopButton_Click(object sender, RoutedEventArgs e)
         {
-/*            Object timeObject = LogicalTreeHelper.FindLogicalNode(sampleGrid, "elapsedTimeValueText" + 3);
-            if (timeObject is TextBlock)
-            {
-                TextBlock timeTextBlock = timeObject as TextBlock;
-                timeTextBlock.Text = "23:32:11";
-            }
-            TextBlock tempTextBlock = (TextBlock)sampleGrid.FindName("temperatureValueText" + 3);
-            Object tempObject = LogicalTreeHelper.FindLogicalNode(sampleGrid, "temperatureValueText" + 3);
-            if (tempObject is TextBlock)
-            {
-                TextBlock elapsedTemperatureTextBlock = tempObject as TextBlock;
-                elapsedTemperatureTextBlock.Text = "32.5F";
-            } */
             if (running)
             {
-                logger.Trace("Stopping");
-                dispatcherTimer.Stop();
-              //  dispatcherTimer = null;
-                startStopButton.Content = "Start";
-                running = false;
+                stopRun();
+
             }
             else
             {
-                logger.Trace("1");
-                settings = DataObjects.SettingsManager.Instance.ApplicationSettings;
-                logger.Trace("2");
-                ovenManager = new SampleOvenManager(settings);
-                logger.Trace("3");
-                dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-                logger.Trace("4");
-                dispatcherTimer.Start();
-                logger.Trace("5");
-                startStopButton.Content = "Stop";
-                logger.Trace("6");
-                running = true;
+                startRun();
             }
             
 
+        }
+
+        private void startRun()
+        {
+            settings = DataObjects.SettingsManager.Instance.ApplicationSettings;
+            SolidColorBrush enabledBrush = new SolidColorBrush(Colors.White);
+            SolidColorBrush disabledBrush = new SolidColorBrush(Colors.WhiteSmoke);
+            for (byte i = 1; i <= 30; i++)
+            {
+                Object stationObject = LogicalTreeHelper.FindLogicalNode(sampleGrid, "stationGrid" + i);
+                if (stationObject is Grid)
+                {
+                    Grid stationGrid = stationObject as Grid;
+                    if (settings.SampleConfigurationDictionary.ContainsKey(i) && settings.SampleConfigurationDictionary[i] != null)
+                    {
+                        stationGrid.Background = enabledBrush;
+                    }
+                    else
+                    {
+                        stationGrid.Background = disabledBrush;
+                    }
+                }
+
+            }
+            ovenManager = new SampleOvenManager(settings);
+            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+            dispatcherTimer.Start();
+            startStopButton.Content = "Stop";
+            configMenuItem.IsEnabled = false;
+            running = true;
+        }
+
+        private void stopRun()
+        {
+            logger.Trace("Stopping");
+            dispatcherTimer.Stop();
+            startStopButton.Content = "Start";
+            configMenuItem.IsEnabled = true;
+            running = false;
         }
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
@@ -309,21 +284,19 @@ namespace AdherentSampleOven
             }
             if (ovenManager.RunCompleted)
             {
+                stopRun();
                 runCompletedText.Visibility = Visibility.Visible;
             }
             else
             {
                 runCompletedText.Visibility = Visibility.Hidden;
             }
-            //foreach (var sample in ovenManager.SampleDictionary)
-            //{
-            //    updateSampleBlock(sample.Key, sample.Value);
-            //}
 
         }
 
         private void updateSampleBlock(byte sampleNumber, SampleOvenManager.SampleData? sampleData)
         {
+
             Object timeObject = LogicalTreeHelper.FindLogicalNode(sampleGrid, "elapsedTimeValueText" + sampleNumber);
             if (timeObject is TextBlock)
             {
@@ -367,7 +340,6 @@ namespace AdherentSampleOven
         {
             if (dispatcherTimer != null) dispatcherTimer.Stop();
             Properties.Settings.Default.Save();
-           // MessageBox.Show("Closing");
             base.OnClosing(e);
         } 
 
