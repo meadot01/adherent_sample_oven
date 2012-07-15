@@ -57,7 +57,9 @@
                     <TextBlock HorizontalAlignment="Right"  Name="currentTemperatureLabel" Text="Current Temperature" Margin="0,45,34,0" Height="20"  VerticalAlignment="Top" />
                     <TextBlock HorizontalAlignment="Right" Margin="0,60,34,0" Name="currentTemperatureValue" Text="" Width="111" Height="20"  VerticalAlignment="Top" FontWeight="Bold" />
                     <Button Content="Start" Height="54" HorizontalAlignment="Left" Margin="6,30,0,0" Name="startStopButton" VerticalAlignment="Top" Width="116" Click="startStopButton_Click" FontSize="16" />
-                    <TextBlock Height="29" HorizontalAlignment="Left" Margin="355,36,0,0" Name="runCompletedText" Text="Run Completed" VerticalAlignment="Top" FontSize="22" Foreground="Blue" Width="155" Visibility="Hidden" />
+                    <TextBlock Height="29" HorizontalAlignment="Left" Margin="351,60,0,0" Name="runCompletedText" Text="Run Completed" VerticalAlignment="Top" FontSize="22" Foreground="Blue" Width="155" Visibility="Hidden" />
+                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="205,11,0,0" Name="textBlock1" Text="Log File Location:" VerticalAlignment="Top" Width="97" />
+                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="308,11,0,0" Name="logFileLocationTextBlock" Text="" VerticalAlignment="Top" Width="394" />
                 </Grid>
             </Grid>
         </DockPanel>
