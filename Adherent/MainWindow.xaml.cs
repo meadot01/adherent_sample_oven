@@ -4,6 +4,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using NLog;
+using NLog.Config;
+using NLog.Targets;
+using NLog.Layouts;
 using AdherentSampleOven.DataObjects;
 using AdherentSampleOven.HardwareInterface;
 
@@ -19,6 +22,7 @@ namespace AdherentSampleOven
     public partial class MainWindow : Window
     {
         private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private static Logger sampleLogger = NLog.LogManager.GetLogger("SampleLogger");
         private Boolean running = false;
         private System.Windows.Threading.DispatcherTimer dispatcherTimer;
         private DataObjects.Settings settings = null;
@@ -28,11 +32,26 @@ namespace AdherentSampleOven
         {
             InitializeComponent();
             logger.Trace("After InitializeComponent");
-            addStationControlToGrid();
+            addStationControlToGrid(sampleGrid);
             logger.Trace("Added station control to grid");
             dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             logger.Trace("Timer created");
+            LoggingConfiguration config = LogManager.Configuration;
+            foreach (Target currentTarget in config.AllTargets)
+            {
+                if (currentTarget is FileTarget)
+                {
+                    if (currentTarget.Name.StartsWith("sampleFile"))
+                    {
+
+                        FileTarget standardTarget = currentTarget as FileTarget;
+                        string expandedFileName = NLog.Layouts.SimpleLayout.Evaluate(standardTarget.FileName.ToString());
+                        logFileLocationTextBlock.Text = expandedFileName;
+                        break;
+                    }
+                }
+            } 
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -51,69 +70,80 @@ namespace AdherentSampleOven
 
         private void printMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            Grid printSampleGrid = new Grid();
+            printSampleGrid.Name = "printSampleGrid";
+            printSampleGrid.ShowGridLines = true;
+            RowDefinition sampleRowdef1 = new RowDefinition();
+            sampleRowdef1.Height = new GridLength(1, GridUnitType.Star);
+            RowDefinition sampleRowdef2 = new RowDefinition();
+            sampleRowdef2.Height = new GridLength(1, GridUnitType.Star);
+            RowDefinition sampleRowdef3 = new RowDefinition();
+            sampleRowdef3.Height = new GridLength(1, GridUnitType.Star);
+            RowDefinition sampleRowdef4 = new RowDefinition();
+            sampleRowdef4.Height = new GridLength(1, GridUnitType.Star);
+            RowDefinition sampleRowdef5 = new RowDefinition();
+            sampleRowdef5.Height = new GridLength(1, GridUnitType.Star);
+            RowDefinition sampleRowdef6 = new RowDefinition();
+            sampleRowdef6.Height = new GridLength(1, GridUnitType.Star);
+
+            ColumnDefinition sampleColdef1 = new ColumnDefinition();
+            sampleColdef1.Width = new GridLength(1, GridUnitType.Star);
+            ColumnDefinition sampleColdef2 = new ColumnDefinition();
+            sampleColdef2.Width = new GridLength(1, GridUnitType.Star);
+            ColumnDefinition sampleColdef3 = new ColumnDefinition();
+            sampleColdef3.Width = new GridLength(1, GridUnitType.Star);
+            ColumnDefinition sampleColdef4 = new ColumnDefinition();
+            sampleColdef4.Width = new GridLength(1, GridUnitType.Star);
+            ColumnDefinition sampleColdef5 = new ColumnDefinition();
+            sampleColdef5.Width = new GridLength(1, GridUnitType.Star);
+            printSampleGrid.RowDefinitions.Add(sampleRowdef1);
+            printSampleGrid.RowDefinitions.Add(sampleRowdef2);
+            printSampleGrid.RowDefinitions.Add(sampleRowdef3);
+            printSampleGrid.RowDefinitions.Add(sampleRowdef4);
+            printSampleGrid.RowDefinitions.Add(sampleRowdef5);
+            printSampleGrid.RowDefinitions.Add(sampleRowdef6);
+            printSampleGrid.ColumnDefinitions.Add(sampleColdef1);
+            printSampleGrid.ColumnDefinitions.Add(sampleColdef2);
+            printSampleGrid.ColumnDefinitions.Add(sampleColdef3);
+            printSampleGrid.ColumnDefinitions.Add(sampleColdef4);
+            printSampleGrid.ColumnDefinitions.Add(sampleColdef5);
+
+            addStationControlToGrid(printSampleGrid);
+            updateSampleGrid(printSampleGrid);
+
+            DockPanel printDockPanel = new DockPanel();
+            printDockPanel.Margin = new Thickness(80, 60, 80, 60);
+
+            TextBlock nameLabelText = new TextBlock();
+            nameLabelText.Text = "Name: ________________________________";
+            nameLabelText.Padding = new Thickness(20, 0, 0, 20);
+            nameLabelText.FontSize = 20;
+            printDockPanel.Children.Add(nameLabelText);
+            DockPanel.SetDock(nameLabelText, Dock.Top);
+
+            printDockPanel.Children.Add(printSampleGrid);
+            DockPanel.SetDock(printSampleGrid, Dock.Bottom);
+
+ 
             PrintDialog printDlg = new PrintDialog();
             if (printDlg.ShowDialog() == true)
             {
-                System.Printing.PrintCapabilities capabilities =
-    printDlg.PrintQueue.GetPrintCapabilities(printDlg.PrintTicket);
 
-                //get scale of the print wrt to screen of WPF visual
-                double scale = Math.Min(capabilities.PageImageableArea.ExtentWidth / sampleGrid.ActualWidth, capabilities.PageImageableArea.ExtentHeight /
-                               sampleGrid.ActualHeight);
+                var printCapabilities = printDlg.PrintQueue.GetPrintCapabilities(printDlg.PrintTicket);
 
-                //Transform the Visual to scale
-                sampleGrid.LayoutTransform = new ScaleTransform(scale, scale);
+                var size = new Size(printCapabilities.PageImageableArea.ExtentWidth,
+                     printCapabilities.PageImageableArea.ExtentHeight);
 
-                //get the size of the printer page
-                Size sz = new Size(capabilities.PageImageableArea.ExtentWidth, capabilities.PageImageableArea.ExtentHeight);
+                printDockPanel.Measure(size);
+                printDockPanel.Arrange(new Rect(new Point(printCapabilities.PageImageableArea.OriginWidth,
+                    printCapabilities.PageImageableArea.OriginHeight), size));
 
-                //update the layout of the visual to the printer page size.
-                sampleGrid.Measure(sz);
-                sampleGrid.Arrange(new Rect(new Point(capabilities.PageImageableArea.OriginWidth, capabilities.PageImageableArea.OriginHeight), sz));
-
-                //now print the visual to printer to fit on the one page.
-
-                printDlg.PrintVisual(sampleGrid, "Test Print Sample Grid");
+                printDlg.PrintVisual(printDockPanel, "Print ListView");
             }
         }
 
-        private void addStationControlToGrid()
+        private void addStationControlToGrid(Grid aGrid)
         {
-
-            /*
-                <Grid Grid.Row ="0" Grid.Column="0" ShowGridLines="False">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="1*" />
-                        <RowDefinition Height="2*" />
-                        <RowDefinition Height="1*" />
-                        <RowDefinition Height="1*" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="4*" />
-                        <ColumnDefinition Width="3*" />
-                    </Grid.ColumnDefinitions>
-                    <Viewbox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-                        <TextBlock Text="Station: 26" />
-                    </Viewbox>
-                    <Viewbox Grid.Row="2" Grid.Column="0" Margin="8,0,0,0">
-                        <TextBlock Text="Elapsed Time:" />
-                    </Viewbox>
-                    <Viewbox Grid.Row="3" Grid.Column="0" Margin="8,0,0,0">
-                        <TextBlock Text="Temperature:" />
-                    </Viewbox>
-                    <Viewbox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Margin="8,0,4,0">
-                        <TextBlock Text="01:00:13" HorizontalAlignment="Left" />
-                    </Viewbox>
-                    <Viewbox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Margin="8,0,4,0">
-                        <TextBlock Text="102.4" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                    </Viewbox>
-
-
-                </Grid>
-
-
-             *
-             */
             int stationNumber = 30;
             for (int y = 0; y < 6; y++)
             {
@@ -126,7 +156,7 @@ namespace AdherentSampleOven
                     RowDefinition rowdef1 = new RowDefinition();
                     rowdef1.Height = new GridLength(2, GridUnitType.Star);
                     RowDefinition rowdef2 = new RowDefinition();
-                    rowdef2.Height = new GridLength(1, GridUnitType.Star);
+                    rowdef2.Height = new GridLength(2, GridUnitType.Star);
                     RowDefinition rowdef3 = new RowDefinition();
                     rowdef3.Height = new GridLength(2, GridUnitType.Star);
                     RowDefinition rowdef4 = new RowDefinition();
@@ -192,7 +222,7 @@ namespace AdherentSampleOven
                     Grid.SetColumn(temperatureValueViewbox, 1);
                     Grid.SetRow(temperatureValueViewbox, 3);
 
-                    sampleGrid.Children.Add(currentSampleGrid);
+                    aGrid.Children.Add(currentSampleGrid);
                     Grid.SetColumn(currentSampleGrid, x);
                     Grid.SetRow(currentSampleGrid, y);
                     stationNumber--;
@@ -220,6 +250,7 @@ namespace AdherentSampleOven
 
         private void startRun()
         {
+            sampleLogger.Info("Run Started");
             settings = DataObjects.SettingsManager.Instance.ApplicationSettings;
             SolidColorBrush enabledBrush = new SolidColorBrush(Colors.White);
             SolidColorBrush disabledBrush = new SolidColorBrush(Colors.WhiteSmoke);
@@ -250,7 +281,7 @@ namespace AdherentSampleOven
 
         private void stopRun()
         {
-            logger.Trace("Stopping");
+            sampleLogger.Info("Run Stopped");
             dispatcherTimer.Stop();
             startStopButton.Content = "Start";
             configMenuItem.IsEnabled = true;
@@ -271,19 +302,10 @@ namespace AdherentSampleOven
             {
                 currentTemperatureValue.Text = System.Math.Round(ovenManager.OvenTemperature) + "°C";
             }
-            for (byte i = 0; i <= 30; i++)
-            {
-                if (ovenManager.SampleDictionary.ContainsKey(i))
-                {
-                    updateSampleBlock(i, ovenManager.SampleDictionary[i]);
-                }
-                else
-                {
-                    updateSampleBlock(i, null);
-                }
-            }
+            updateSampleGrid(sampleGrid);
             if (ovenManager.RunCompleted)
             {
+                sampleLogger.Info("Run Completed - all samples triggered");
                 stopRun();
                 runCompletedText.Visibility = Visibility.Visible;
             }
@@ -294,10 +316,29 @@ namespace AdherentSampleOven
 
         }
 
-        private void updateSampleBlock(byte sampleNumber, SampleOvenManager.SampleData? sampleData)
+        private void updateSampleGrid(Grid aGrid)
+        {
+            if (ovenManager != null && ovenManager.SampleDictionary != null)
+            {
+                for (byte i = 0; i <= 30; i++)
+                {
+                    if (ovenManager.SampleDictionary.ContainsKey(i))
+                    {
+                        updateSampleBlock(aGrid, i, ovenManager.SampleDictionary[i]);
+                    }
+                    else
+                    {
+                        updateSampleBlock(aGrid, i, null);
+                    }
+                }
+            }
+
+        }
+
+        private void updateSampleBlock(Grid aGrid, byte sampleNumber, SampleOvenManager.SampleData? sampleData)
         {
 
-            Object timeObject = LogicalTreeHelper.FindLogicalNode(sampleGrid, "elapsedTimeValueText" + sampleNumber);
+            Object timeObject = LogicalTreeHelper.FindLogicalNode(aGrid, "elapsedTimeValueText" + sampleNumber);
             if (timeObject is TextBlock)
             {
                 TextBlock timeTextBlock = timeObject as TextBlock;
@@ -310,7 +351,7 @@ namespace AdherentSampleOven
                     timeTextBlock.Text = "";
                 }
             }
-            Object tempObject = LogicalTreeHelper.FindLogicalNode(sampleGrid, "temperatureValueText" + sampleNumber);
+            Object tempObject = LogicalTreeHelper.FindLogicalNode(aGrid, "temperatureValueText" + sampleNumber);
             if (tempObject is TextBlock)
             {
                 TextBlock elapsedTemperatureTextBlock = tempObject as TextBlock;
