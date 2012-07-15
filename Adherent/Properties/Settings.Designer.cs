@@ -490,5 +490,17 @@ namespace AdherentSampleOven.Properties {
                 this["switchDefaultClosed"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public int secondsBeforeErrorTimeout {
+            get {
+                return ((int)(this["secondsBeforeErrorTimeout"]));
+            }
+            set {
+                this["secondsBeforeErrorTimeout"] = value;
+            }
+        }
     }
 }
