@@ -46,7 +46,11 @@ namespace AdherentSampleOven.DataObjects
             set;
         }
 
-
+        public int SecondsBeforeErrorTimeout
+        {
+            get;
+            set;
+        }
 
         public ISet<MccDaq.DigitalPortType> getPortsUsed()
         {

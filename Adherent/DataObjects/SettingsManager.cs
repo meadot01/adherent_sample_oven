@@ -15,6 +15,7 @@ namespace AdherentSampleOven.DataObjects
         private static string dioBoardNumberPropertyName = "dioBoard";
         private static string tempFormatCelsiusPropertyName = "temperatureFormatCelsius";
         private static string switchDefaultClosedPropertyName = "switchDefaultClosed";
+        private static string secondsBeforeErrorTimeoutPropertyName = "secondsBeforeErrorTimeout";
 
         // SampleInformationProvider is a Singleton - it holds device configuration 
         // and status of each sample
@@ -101,6 +102,15 @@ namespace AdherentSampleOven.DataObjects
                     applicationSettings.SwitchDefaultClosed = (bool)switchDefaultClosed;
                 }
 
+                Object secondsBeforeErrorTimeout = Properties.Settings.Default[secondsBeforeErrorTimeoutPropertyName];
+                if (secondsBeforeErrorTimeout == null)
+                {
+                    applicationSettings.SecondsBeforeErrorTimeout = 0;
+                }
+                else
+                {
+                    applicationSettings.SecondsBeforeErrorTimeout = (int)secondsBeforeErrorTimeout;
+                }
 
                 return applicationSettings;
             }
