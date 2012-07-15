@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using MccDaq;
 using AdherentSampleOven.DataObjects;
+using NLog;
 
 namespace AdherentSampleOven.HardwareInterface
 {
     class MccDeviceReader
     {
+        private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private MccBoard tempBoard, dioBoard;
         private Settings settings;
         private TempScale tempScale;
