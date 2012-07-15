@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AdherentSampleOven.DataObjects;
+using NLog;
 
 namespace AdherentSampleOven.HardwareInterface
 {
@@ -12,7 +13,13 @@ namespace AdherentSampleOven.HardwareInterface
      */
     public class SampleOvenManager
     {
-        public struct SampleData {
+        private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private static Logger sampleLogger = NLog.LogManager.GetLogger("SampleLogger");
+        private Settings settings;
+
+        public struct SampleData
+        {
+
             public float finalTemp;
             public TimeSpan finalTime;
 
@@ -70,8 +77,9 @@ namespace AdherentSampleOven.HardwareInterface
         {
         }
 
-        public SampleOvenManager(Settings settings)
+        public SampleOvenManager(Settings _settings)
         {
+            settings = _settings;
             deviceReader = new MccDeviceReader(settings);
             startTime = DateTime.Now;
         }
@@ -95,13 +103,21 @@ namespace AdherentSampleOven.HardwareInterface
                         if (!sampleDictionary.ContainsKey(sampleValue.Key))
                         {
                             sampleDictionary[sampleValue.Key] = new SampleData(results.Temperature, ElapsedTime);
+                            String temperatureString;
+                            if (settings.TemperatureFormat == TemperatureFormatEnum.Farenheit)
+                            {
+                                temperatureString = System.Math.Round(results.Temperature) + "°F";
+                            }
+                            else
+                            {
+                                temperatureString = System.Math.Round(results.Temperature) + "°C";
+                            }
+                            sampleLogger.Info("Sample #" + sampleValue.Key + " triggered with temperature = " + temperatureString + ", elapsed time : " + ElapsedTime.ToString(@"hh\:mm"));
+                            
                         }
                     }
                 }
-
             }
         }
-
     }
-
 }
