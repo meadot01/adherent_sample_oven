@@ -336,6 +336,7 @@ namespace AdherentSampleOven
             catch (Exception e)
             {
                 sampleLogger.Info("Run Ended - Error configuring device", e);
+                logger.Error("Run Ended - Error configuring device", e);
                 return;
             }
             // Add event handler for dispatch timer tick and start the timer
