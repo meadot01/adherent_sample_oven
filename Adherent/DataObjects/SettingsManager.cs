@@ -7,6 +7,10 @@ using System.Text;
 
 namespace AdherentSampleOven.DataObjects
 {
+    /*
+     * SettingsManager
+     *   Singleton that is used to read or write Application settings.  
+     */
     public sealed class SettingsManager
     {
         private static string samplePropertyPrefix = "Sample";
@@ -17,8 +21,7 @@ namespace AdherentSampleOven.DataObjects
         private static string switchDefaultClosedPropertyName = "switchDefaultClosed";
         private static string secondsBeforeErrorTimeoutPropertyName = "secondsBeforeErrorTimeout";
 
-        // SampleInformationProvider is a Singleton - it holds device configuration 
-        // and status of each sample
+
         static readonly SettingsManager _instance = new SettingsManager();
 
         public static SettingsManager Instance
@@ -146,6 +149,7 @@ namespace AdherentSampleOven.DataObjects
                 {
                     Properties.Settings.Default[tempFormatCelsiusPropertyName] = true;
                 }
+                Properties.Settings.Default[secondsBeforeErrorTimeoutPropertyName] = settings.SecondsBeforeErrorTimeout;
             }
 
         }

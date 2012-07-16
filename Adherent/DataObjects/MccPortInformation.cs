@@ -5,6 +5,9 @@ using System.Text;
 
 namespace AdherentSampleOven.DataObjects
 {
+    /*
+     * MccPortInformation holds device information for a specific port on the DIO device 
+     */
     [Serializable]
     public class MccPortInformation
     {

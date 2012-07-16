@@ -159,7 +159,15 @@ namespace AdherentSampleOven
                 printDockPanel.Arrange(new Rect(new Point(printCapabilities.PageImageableArea.OriginWidth,
                     printCapabilities.PageImageableArea.OriginHeight), size));
 
-                printDlg.PrintVisual(printDockPanel, "Adherent Oven Sample Run");
+                try
+                {
+                    printDlg.PrintVisual(printDockPanel, "Adherent Oven Sample Run");
+                }
+                catch (Exception ex)
+                {
+                    logger.Warn("Error occurred while printing", ex);
+                    MessageBox.Show("Error occurred while printing - check log for details");
+                }
             }
         }
 

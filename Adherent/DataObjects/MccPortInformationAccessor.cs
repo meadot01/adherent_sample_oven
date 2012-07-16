@@ -5,12 +5,14 @@ using System.Text;
 
 namespace AdherentSampleOven.DataObjects
 {
+    /*
+     * MccPortInformationAccessor is a Singleton - it holds information about the
+     * Mcc ports
+     */
+    
     [Serializable]
     public sealed class MccPortInformationAccessor
     {
-        // MccPortInformationAccessor is a Singleton - it holds information about the
-        // Mcc ports
-
         static readonly MccPortInformationAccessor _instance = new MccPortInformationAccessor();
         private Dictionary<String, MccPortInformation> mccPortInformationDictionary;
 
@@ -23,14 +25,11 @@ namespace AdherentSampleOven.DataObjects
         {
         }
 
-        public enum PortNames
-        {
-            Mode1,
-            Mode2,
-            Mode3,
-            All
-        }
-
+        /*
+         * MccPortInfomationDictionary is a property that contains a dictionary with the
+         * keys being the readable port name and the the value containing the MccPortInformation
+         * for that port.
+         */
         private IDictionary<String, MccPortInformation> MccPortInformationDictionary
         {
             get
@@ -76,6 +75,9 @@ namespace AdherentSampleOven.DataObjects
             }
         }
 
+        /*
+         * MccPortInformationList is a property that contains all the MccPortInformation objects
+         */
         public ICollection<MccPortInformation> MccPortInformationList
         {
             get
@@ -84,6 +86,9 @@ namespace AdherentSampleOven.DataObjects
             }
         }
 
+        /*
+         * MccPortNameList is a property that contains all the readable port names
+         */
         public ICollection<String> MccPortNameList
         {
             get
@@ -105,6 +110,10 @@ namespace AdherentSampleOven.DataObjects
             }
         }
 
+        /*
+         * portForName returns MccPortInformation for the given port name.
+         * If not found it will return null.
+         */
         public MccPortInformation portForName(String _portName)
         {
 

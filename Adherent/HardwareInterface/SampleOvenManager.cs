@@ -48,7 +48,6 @@ namespace AdherentSampleOven.HardwareInterface
             get
             {
                 return DateTime.Now - startTime;
-                //return new DateTime(2012, 6, 23) - startTime;
             }
         }
 

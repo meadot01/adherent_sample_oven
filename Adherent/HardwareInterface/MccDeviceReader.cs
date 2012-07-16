@@ -8,14 +8,17 @@ using NLog;
 
 namespace AdherentSampleOven.HardwareInterface
 {
+    /*
+     * MccDeviceReader
+     *   Opens communication with the DIO and temperature hardware and 
+     *   reads the devices when polled.
+     */
     class MccDeviceReader
     {
         private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private MccBoard tempBoard, dioBoard;
         private Settings settings;
         private TempScale tempScale;
-
-
 
         private ThermocoupleOptions termocoupleOptions = ThermocoupleOptions.Filter;
 
@@ -24,6 +27,7 @@ namespace AdherentSampleOven.HardwareInterface
             settings = _settings;
             ISet<MccDaq.DigitalPortType> portsUsed = settings.getPortsUsed();
             tempBoard = new MccBoard(settings.TempBoardNumber);
+
             if (settings.TemperatureFormat == TemperatureFormatEnum.Farenheit)
             {
                 tempScale = TempScale.Fahrenheit;
@@ -65,6 +69,7 @@ namespace AdherentSampleOven.HardwareInterface
                 return results;
             }
             IDictionary<MccDaq.DigitalPortType, ushort> dioPortValues = new Dictionary<MccDaq.DigitalPortType, ushort>();
+            // The DIO board is read an entire port at a time
             foreach (MccDaq.DigitalPortType portType in settings.getPortsUsed())
             {
                 ushort tmpPortValues;
@@ -82,6 +87,11 @@ namespace AdherentSampleOven.HardwareInterface
                 }
 
             }
+            /* After the ports have been read we get the individual bit values for the
+             * bits we are interested.  We also check to see if all the samples that
+             * are configured have been tripped so we know if the run has completed.
+             */
+
             bool tempRunCompleted = true;
             foreach (var sampleInfo in settings.SampleConfigurationDictionary)
             {

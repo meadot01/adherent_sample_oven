@@ -7,6 +7,10 @@ namespace AdherentSampleOven.DataObjects
 {
     public enum TemperatureFormatEnum { Celsius, Farenheit };
 
+    /*
+     * Settings
+     *   DataObject to hold Application Settings
+     */
     public class Settings
     {
         private ISet<MccDaq.DigitalPortType> portsUsed;

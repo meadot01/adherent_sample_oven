@@ -5,6 +5,11 @@ using System.Text;
 
 namespace AdherentSampleOven.HardwareInterface
 {
+    /*
+     * MccDeviceResults
+     *   Data object containing the results of the hardware scan.  This is returned from the 
+     *   MccDeviceReader.
+     */
     class MccDeviceResults
     {
         public float Temperature

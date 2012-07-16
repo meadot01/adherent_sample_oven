@@ -28,7 +28,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ProductName>Adherent Sample Oven</ProductName>
     <PublisherName>Adherent Labs</PublisherName>
-    <ApplicationRevision>18</ApplicationRevision>
+    <ApplicationRevision>19</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -96,9 +96,9 @@
       <DependentUpon>Config2.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataObjects\MccPortInformationAccessor.cs" />
-    <Compile Include="DataObjects\SampleInformation.cs" />
     <Compile Include="DataObjects\Settings.cs" />
     <Compile Include="DataObjects\SettingsManager.cs" />
+    <Compile Include="HardwareInterface\DeviceException.cs" />
     <Compile Include="HardwareInterface\MccDeviceReader.cs" />
     <Compile Include="HardwareInterface\MccDeviceResults.cs" />
     <Compile Include="HardwareInterface\SampleOvenManager.cs" />
