@@ -35,7 +35,12 @@ namespace AdherentSampleOven.HardwareInterface
             dioBoard = new MccBoard(settings.DIOBoardNumber);
             foreach (MccDaq.DigitalPortType portType in settings.getPortsUsed())
             {
-                dioBoard.DConfigPort(portType, MccDaq.DigitalPortDirection.DigitalIn);
+                MccDaq.ErrorInfo ulStat = dioBoard.DConfigPort(portType, MccDaq.DigitalPortDirection.DigitalIn);
+                if (ulStat.Value != ErrorInfo.ErrorCode.NoErrors)
+                {
+                    logger.Error("Error while configuring DIO Board : " + ulStat.Message);
+                    throw new DeviceException("Error while configuring DIO Board : " + ulStat.Message);
+                }
             }
 
             //    MccDaq.ErrorInfo ULStat = MccDaq.MccService.ErrHandling(MccDaq.ErrorReporting.PrintAll, MccDaq.ErrorHandling.StopAll);
@@ -56,6 +61,7 @@ namespace AdherentSampleOven.HardwareInterface
             {
                 results.ErrorCondition = true;
                 results.ErrorString = "Error while reading Temperature : " + ulStat.Message;
+                logger.Warn(results.ErrorString);
                 return results;
             }
             IDictionary<MccDaq.DigitalPortType, ushort> dioPortValues = new Dictionary<MccDaq.DigitalPortType, ushort>();
@@ -71,6 +77,7 @@ namespace AdherentSampleOven.HardwareInterface
                 {
                     results.ErrorCondition = true;
                     results.ErrorString = "Error while reading dio port " + portType.ToString() + " : " + ulStat.Message;
+                    logger.Warn(results.ErrorString);
                     return results;
                 }
 

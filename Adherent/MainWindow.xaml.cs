@@ -320,7 +320,16 @@ namespace AdherentSampleOven
             // Shade unused stations
             colorDisabledStations(sampleGrid);
             // Get a new OvenManager
-            ovenManager = new SampleOvenManager(settings);
+            try
+            {
+
+                ovenManager = new SampleOvenManager(settings);
+            }
+            catch (Exception e)
+            {
+                sampleLogger.Info("Run Ended - Error configuring device", e);
+                return;
+            }
             // Add event handler for dispatch timer tick and start the timer
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             dispatcherTimer.Start();
