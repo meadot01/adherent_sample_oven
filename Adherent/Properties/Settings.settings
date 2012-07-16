@@ -27,100 +27,100 @@
       <Value Profile="(Default)">50</Value>
     </Setting>
     <Setting Name="Sample5" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port1A4</Value>
     </Setting>
     <Setting Name="Sample6" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port1A5</Value>
     </Setting>
     <Setting Name="Sample7" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port1A6</Value>
     </Setting>
     <Setting Name="Sample8" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port1A7</Value>
     </Setting>
     <Setting Name="Sample9" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port1B0</Value>
     </Setting>
     <Setting Name="Sample10" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port1B1</Value>
     </Setting>
     <Setting Name="Sample11" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port1B2</Value>
     </Setting>
     <Setting Name="Sample12" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port1B3</Value>
     </Setting>
     <Setting Name="Sample13" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port1B4</Value>
     </Setting>
     <Setting Name="Sample14" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port1B5</Value>
     </Setting>
     <Setting Name="Sample15" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port1B6</Value>
     </Setting>
     <Setting Name="Sample16" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port1B7</Value>
     </Setting>
     <Setting Name="Sample17" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port1C0</Value>
     </Setting>
     <Setting Name="Sample18" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port1C1</Value>
     </Setting>
     <Setting Name="Sample19" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port1C2</Value>
     </Setting>
     <Setting Name="Sample20" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port1C3</Value>
     </Setting>
     <Setting Name="Sample21" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port1C4</Value>
     </Setting>
     <Setting Name="Sample22" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port1C5</Value>
     </Setting>
     <Setting Name="Sample23" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port1C6</Value>
     </Setting>
     <Setting Name="Sample24" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port1C7</Value>
     </Setting>
     <Setting Name="Sample25" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port2A0</Value>
     </Setting>
     <Setting Name="Sample26" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port2A1</Value>
     </Setting>
     <Setting Name="Sample27" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port2A2</Value>
     </Setting>
     <Setting Name="Sample28" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port2A3</Value>
     </Setting>
     <Setting Name="Sample29" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port2A4</Value>
     </Setting>
     <Setting Name="Sample30" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Port2A5</Value>
     </Setting>
     <Setting Name="tempBoard" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">3</Value>
+      <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="tempPort" Type="System.Byte" Scope="User">
-      <Value Profile="(Default)">2</Value>
+      <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="dioBoard" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">5</Value>
+      <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="temperatureFormatCelsius" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="switchDefaultClosed" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="switchDefaultClosed" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
     <Setting Name="secondsBeforeErrorTimeout" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">60</Value>
+      <Value Profile="(Default)">120</Value>
     </Setting>
   </Settings>
 </SettingsFile>

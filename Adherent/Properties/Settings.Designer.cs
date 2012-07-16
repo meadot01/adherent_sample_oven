@@ -121,7 +121,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port1A4")]
         public string Sample5 {
             get {
                 return ((string)(this["Sample5"]));
@@ -133,7 +133,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port1A5")]
         public string Sample6 {
             get {
                 return ((string)(this["Sample6"]));
@@ -145,7 +145,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port1A6")]
         public string Sample7 {
             get {
                 return ((string)(this["Sample7"]));
@@ -157,7 +157,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port1A7")]
         public string Sample8 {
             get {
                 return ((string)(this["Sample8"]));
@@ -169,7 +169,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port1B0")]
         public string Sample9 {
             get {
                 return ((string)(this["Sample9"]));
@@ -181,7 +181,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port1B1")]
         public string Sample10 {
             get {
                 return ((string)(this["Sample10"]));
@@ -193,7 +193,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port1B2")]
         public string Sample11 {
             get {
                 return ((string)(this["Sample11"]));
@@ -205,7 +205,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port1B3")]
         public string Sample12 {
             get {
                 return ((string)(this["Sample12"]));
@@ -217,7 +217,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port1B4")]
         public string Sample13 {
             get {
                 return ((string)(this["Sample13"]));
@@ -229,7 +229,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port1B5")]
         public string Sample14 {
             get {
                 return ((string)(this["Sample14"]));
@@ -241,7 +241,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port1B6")]
         public string Sample15 {
             get {
                 return ((string)(this["Sample15"]));
@@ -253,7 +253,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port1B7")]
         public string Sample16 {
             get {
                 return ((string)(this["Sample16"]));
@@ -265,7 +265,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port1C0")]
         public string Sample17 {
             get {
                 return ((string)(this["Sample17"]));
@@ -277,7 +277,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port1C1")]
         public string Sample18 {
             get {
                 return ((string)(this["Sample18"]));
@@ -289,7 +289,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port1C2")]
         public string Sample19 {
             get {
                 return ((string)(this["Sample19"]));
@@ -301,7 +301,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port1C3")]
         public string Sample20 {
             get {
                 return ((string)(this["Sample20"]));
@@ -313,7 +313,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port1C4")]
         public string Sample21 {
             get {
                 return ((string)(this["Sample21"]));
@@ -325,7 +325,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port1C5")]
         public string Sample22 {
             get {
                 return ((string)(this["Sample22"]));
@@ -337,7 +337,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port1C6")]
         public string Sample23 {
             get {
                 return ((string)(this["Sample23"]));
@@ -349,7 +349,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port1C7")]
         public string Sample24 {
             get {
                 return ((string)(this["Sample24"]));
@@ -361,7 +361,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port2A0")]
         public string Sample25 {
             get {
                 return ((string)(this["Sample25"]));
@@ -373,7 +373,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port2A1")]
         public string Sample26 {
             get {
                 return ((string)(this["Sample26"]));
@@ -385,7 +385,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port2A2")]
         public string Sample27 {
             get {
                 return ((string)(this["Sample27"]));
@@ -397,7 +397,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port2A3")]
         public string Sample28 {
             get {
                 return ((string)(this["Sample28"]));
@@ -409,7 +409,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port2A4")]
         public string Sample29 {
             get {
                 return ((string)(this["Sample29"]));
@@ -421,7 +421,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Port2A5")]
         public string Sample30 {
             get {
                 return ((string)(this["Sample30"]));
@@ -433,7 +433,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int tempBoard {
             get {
                 return ((int)(this["tempBoard"]));
@@ -445,7 +445,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public byte tempPort {
             get {
                 return ((byte)(this["tempPort"]));
@@ -457,7 +457,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
         public int dioBoard {
             get {
                 return ((int)(this["dioBoard"]));
@@ -469,7 +469,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool temperatureFormatCelsius {
             get {
                 return ((bool)(this["temperatureFormatCelsius"]));
@@ -481,7 +481,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool switchDefaultClosed {
             get {
                 return ((bool)(this["switchDefaultClosed"]));
@@ -493,7 +493,7 @@ namespace AdherentSampleOven.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        [global::System.Configuration.DefaultSettingValueAttribute("120")]
         public int secondsBeforeErrorTimeout {
             get {
                 return ((int)(this["secondsBeforeErrorTimeout"]));
