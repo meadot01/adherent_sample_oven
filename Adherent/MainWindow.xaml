@@ -64,7 +64,7 @@
             </Grid>
         </DockPanel>
         <DockPanel>
-            <Grid  ShowGridLines="True" Name="sampleGrid">
+            <Grid  ShowGridLines="False" Name="sampleGrid">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*" />
                     <RowDefinition Height="1*" />

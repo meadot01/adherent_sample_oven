@@ -92,7 +92,7 @@ namespace AdherentSampleOven
         {
             Grid printSampleGrid = new Grid();
             printSampleGrid.Name = "printSampleGrid";
-            printSampleGrid.ShowGridLines = true;
+            printSampleGrid.ShowGridLines = false;
             RowDefinition sampleRowdef1 = new RowDefinition();
             sampleRowdef1.Height = new GridLength(1, GridUnitType.Star);
             RowDefinition sampleRowdef2 = new RowDefinition();
@@ -208,9 +208,16 @@ namespace AdherentSampleOven
                     currentSampleGrid.ColumnDefinitions.Add(coldef1);
                     currentSampleGrid.ColumnDefinitions.Add(coldef2);
 
+                    Border gridBorder = new Border();
+                    gridBorder.BorderBrush = Brushes.Black;
+                    gridBorder.BorderThickness = new Thickness(1);
+                    currentSampleGrid.Children.Add(gridBorder);
+                    Grid.SetColumnSpan(gridBorder, 2);
+                    Grid.SetRowSpan(gridBorder, 4);
+
 
                     TextBlock stationLabelText = new TextBlock();
-                    stationLabelText.Text = "Station: " + stationNumber;
+                    stationLabelText.Text = "" +  stationNumber;
                     Viewbox stationLabelViewbox = new Viewbox();
                     stationLabelViewbox.Child = stationLabelText;
                     currentSampleGrid.Children.Add(stationLabelViewbox);
