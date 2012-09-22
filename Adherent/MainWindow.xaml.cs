@@ -380,7 +380,8 @@ namespace AdherentSampleOven
             // Get currnt device status from ovenManager
             ovenManager.updateResults();
             // Show current elapsed time
-            timeFromStartValue.Text = ovenManager.ElapsedTime.ToString(@"hh\:mm\:ss");
+            timeFromStartValue.Text = String.Format("{0:N0}:{1}", (ovenManager.ElapsedTime.Days * 24 * 60 + ovenManager.ElapsedTime.Hours * 60 + ovenManager.ElapsedTime.Minutes), ovenManager.ElapsedTime.Seconds);
+
             // Show status message - this would contain device errors if any occurred
             statusText.Text = ovenManager.StatusMessage;
             statusText.ToolTip = ovenManager.StatusMessage;
@@ -464,7 +465,7 @@ namespace AdherentSampleOven
                 TextBlock timeTextBlock = timeObject as TextBlock;
                 if (sampleData.HasValue)
                 {
-                    timeTextBlock.Text = sampleData.Value.finalTime.ToString(@"hh\:mm");
+                    timeTextBlock.Text = String.Format("{0:N0}", (sampleData.Value.finalTime.Days * 24 * 60 + sampleData.Value.finalTime.Hours * 60 + sampleData.Value.finalTime.Minutes));
                 }
                 else
                 {
