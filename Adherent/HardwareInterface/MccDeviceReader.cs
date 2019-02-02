@@ -37,13 +37,13 @@ namespace AdherentSampleOven.HardwareInterface
                 tempScale = TempScale.Celsius;
             }
             dioBoard = new MccBoard(settings.DIOBoardNumber);
-            foreach (MccDaq.DigitalPortType portType in settings.getPortsUsed())
+            foreach (DigitalPortType portType in settings.getPortsUsed())
             {
                 MccDaq.ErrorInfo ulStat = dioBoard.DConfigPort(portType, MccDaq.DigitalPortDirection.DigitalIn);
                 if (ulStat.Value != ErrorInfo.ErrorCode.NoErrors)
                 {
                     logger.Error("Error while configuring DIO Board : " + ulStat.Message);
-                    throw new DeviceException("Error while configuring DIO Board : " + ulStat.Message);
+                    throw new Exception("Error while configuring DIO Board : " + ulStat.Message);
                 }
             }
 

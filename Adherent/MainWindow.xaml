@@ -1,21 +1,13 @@
 ﻿<Window x:Class="AdherentSampleOven.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:self="clr-namespace:AdherentSampleOven"
         xmlns:config="clr-namespace:AdherentSampleOven.Properties"
         xmlns:local="clr-namespace:AdherentSampleOven.DataObjects"    
-        Title="Adherent Samples"
-                Height="{Binding Source={x:Static self:Properties.Settings.Default}, 
-                         Path=MainWindowHeight, Mode=TwoWay}"
-        Width="{Binding Source={x:Static self:Properties.Settings.Default}, 
-                        Path=MainWindowWidth, Mode=TwoWay}"
-        Top ="{Binding Source={x:Static self:Properties.Settings.Default}, 
-                       Path=MainWindowTop, Mode=TwoWay}"
-        Left ="{Binding Source={x:Static self:Properties.Settings.Default}, 
-                        Path=MainWindowLeft, Mode=TwoWay}"
-        WindowState="{Binding Source={x:Static self:Properties.Settings.Default}, 
-                              Path=ApplicationWindowState, Mode=TwoWay}">
-        
+        mc:Ignorable="d"
+        Title="Adherent Samples" Height="565" Width="1000">
     <Window.Resources>
         <!-- create an instance of our DataProvider class -->
         <ObjectDataProvider x:Key="DeviceConfigurationProvider"
