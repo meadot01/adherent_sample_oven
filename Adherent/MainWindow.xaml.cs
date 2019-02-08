@@ -165,7 +165,7 @@ namespace AdherentSampleOven
                 }
                 catch (Exception ex)
                 {
-                    logger.Warn("Error occurred while printing", ex);
+                    logger.Warn("Error occurred while printing", ex, null);
                     MessageBox.Show("Error occurred while printing - check log for details");
                 }
             }
@@ -342,8 +342,8 @@ namespace AdherentSampleOven
             }
             catch (Exception e)
             {
-                sampleLogger.Info("Run Ended - Error configuring device", e);
-                logger.Error("Run Ended - Error configuring device", e);
+                sampleLogger.Info("Run Ended - Error configuring device", e, null);
+                logger.Error("Run Ended - Error configuring device", e, null);
                 return;
             }
             // Add event handler for dispatch timer tick and start the timer
