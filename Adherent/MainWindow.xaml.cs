@@ -3,10 +3,8 @@ using System.Printing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using NLog;
-using NLog.Config;
-using NLog.Targets;
-using NLog.Layouts;
+using Serilog;
+using Serilog.Sinks.RollingFileAlternate;
 using AdherentSampleOven.DataObjects;
 using AdherentSampleOven.HardwareInterface;
 
@@ -22,9 +20,9 @@ namespace AdherentSampleOven
     public partial class MainWindow : Window
     {
         // logger - main logger
-        private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        //private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
         // sampleLogger - logger to log only sample run information - should all be INFO level
-        private static Logger sampleLogger = NLog.LogManager.GetLogger("SampleLogger");
+        //private static Logger sampleLogger = NLog.LogManager.GetLogger("SampleLogger");
         // running - is a sample run currently in progress?
         private Boolean running = false;
         // dispatchTimer - created during a run - device will be checked and display updated after every tick
@@ -39,16 +37,22 @@ namespace AdherentSampleOven
         public MainWindow()
         {
             InitializeComponent();
-            logger.Trace("After InitializeComponent");
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console(restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Debug)
+                .WriteTo.RollingFileAlternate("..\\AdherentLogs", fileSizeLimitBytes: 100000, retainedFileCountLimit: 30, minimumLevel: Serilog.Events.LogEventLevel.Information)
+                //.WriteTo.File("adherent-.txt", rollingInterval: RollingInterval.Month)
+                .CreateLogger();
+            Log.Debug("After InitializeComponent");
             // Add all the sample stations to the main grid
-            addStationControlToGrid(sampleGrid);
-            logger.Trace("Added station control to grid");
+            addStationControlToGrid(sampleGrid, false);
+            Log.Debug("Added station control to grid");
             // Create a dispatch timer that will be triggered every second.
             dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
-            logger.Trace("Timer created");
+            Log.Debug("Timer created");
 
             // Search for the NLog config named sampleFile (or wrapped_sampleFile) and show the location on the screen
+            /*
             LoggingConfiguration config = LogManager.Configuration;
             foreach (Target currentTarget in config.AllTargets)
             {
@@ -64,11 +68,13 @@ namespace AdherentSampleOven
                     }
                 }
             } 
+            */
+            startRun();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            logger.Trace("Wndow Loaded");
+            Log.Debug("Wndow Loaded");
 
         }
 
@@ -128,7 +134,7 @@ namespace AdherentSampleOven
             printSampleGrid.ColumnDefinitions.Add(sampleColdef4);
             printSampleGrid.ColumnDefinitions.Add(sampleColdef5);
 
-            addStationControlToGrid(printSampleGrid);
+            addStationControlToGrid(printSampleGrid, true);
             colorDisabledStations(printSampleGrid);
             updateSampleGrid(printSampleGrid);
 
@@ -165,7 +171,7 @@ namespace AdherentSampleOven
                 }
                 catch (Exception ex)
                 {
-                    logger.Warn("Error occurred while printing", ex, null);
+                    Log.Warning("Error occurred while printing", ex, null);
                     MessageBox.Show("Error occurred while printing - check log for details");
                 }
             }
@@ -176,9 +182,9 @@ namespace AdherentSampleOven
          *    Will add the visual components for the 30 sample positions to the given grid
          *    
          */
-        private void addStationControlToGrid(Grid aGrid)
+        private void addStationControlToGrid(Grid aGrid, bool forPrint)
         {
-            int stationNumber = 30;
+            byte stationNumber = 30;
             for (int y = 0; y < 6; y++)
             {
                 for (int x = 4; x >= 0; x--)
@@ -208,6 +214,20 @@ namespace AdherentSampleOven
                     currentSampleGrid.ColumnDefinitions.Add(coldef1);
                     currentSampleGrid.ColumnDefinitions.Add(coldef2);
 
+                    if (!forPrint)
+                    {
+                        Button startStopButton = new Button();
+                        startStopButton.Name = "StartButton" + stationNumber;
+                        startStopButton.Background = new SolidColorBrush(Colors.Green);
+                        startStopButton.Content = "Start";
+                        startStopButton.Tag = stationNumber;
+                        startStopButton.Click += startStopClicked;
+                        currentSampleGrid.Children.Add(startStopButton);
+                        Grid.SetColumn(startStopButton, 0);
+                        Grid.SetColumnSpan(startStopButton, 2);
+                        Grid.SetRow(startStopButton, 1);
+                    }
+
                     Border gridBorder = new Border();
                     gridBorder.BorderBrush = Brushes.Black;
                     gridBorder.BorderThickness = new Thickness(1);
@@ -225,43 +245,32 @@ namespace AdherentSampleOven
                     Grid.SetRow(stationLabelViewbox, 0);
                     Grid.SetColumnSpan(stationLabelViewbox, 2);
 
-                    TextBlock elapsedTimeLabelText = new TextBlock();
-                    elapsedTimeLabelText.Text = "Elapsed Time:";
-                    Viewbox elapsedTimeLabelViewbox = new Viewbox();
-                    elapsedTimeLabelViewbox.Margin = new Thickness { Left = 8 };
-                    elapsedTimeLabelViewbox.Child = elapsedTimeLabelText;
-                    currentSampleGrid.Children.Add(elapsedTimeLabelViewbox);
-                    Grid.SetColumn(elapsedTimeLabelViewbox, 0);
-                    Grid.SetRow(elapsedTimeLabelViewbox, 2);
-
-                    TextBlock temperatureLabelText = new TextBlock();
-                    temperatureLabelText.Text = "Temperature:";
-                    Viewbox temperatureLabelViewbox = new Viewbox();
-                    temperatureLabelViewbox.Margin = new Thickness { Left = 8 };
-                    temperatureLabelViewbox.Child = temperatureLabelText;
-                    currentSampleGrid.Children.Add(temperatureLabelViewbox);
-                    Grid.SetColumn(temperatureLabelViewbox, 0);
-                    Grid.SetRow(temperatureLabelViewbox, 3);
+                    TextBlock startTimeValueText = new TextBlock();
+                    startTimeValueText.TextAlignment = TextAlignment.Left;
+                    startTimeValueText.FontSize = 8;
+                    startTimeValueText.Name = "startTimeValueText" + stationNumber;
+                    Viewbox startTimeValueViewbox = new Viewbox();
+                    startTimeValueViewbox.HorizontalAlignment = HorizontalAlignment.Left;
+                    startTimeValueViewbox.Margin = new Thickness { Left = 8 };
+                    startTimeValueViewbox.Child = startTimeValueText;
+                    currentSampleGrid.Children.Add(startTimeValueViewbox);
+                    Grid.SetColumn(startTimeValueViewbox, 0);
+                    Grid.SetRow(startTimeValueViewbox, 2);
+                    Grid.SetColumnSpan(startTimeValueViewbox, 2);
 
                     TextBlock elapsedTimeValueText = new TextBlock();
+                    elapsedTimeValueText.TextAlignment = TextAlignment.Left;
+                    elapsedTimeValueText.FontSize = 8;
                     elapsedTimeValueText.Name = "elapsedTimeValueText" + stationNumber;
                     Viewbox elapsedTimeValueViewbox = new Viewbox();
+                    elapsedTimeValueViewbox.HorizontalAlignment = HorizontalAlignment.Left;
                     elapsedTimeValueViewbox.Margin = new Thickness { Left = 8, Right = 8 };
                     elapsedTimeValueViewbox.Child = elapsedTimeValueText;
                     elapsedTimeValueViewbox.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
                     currentSampleGrid.Children.Add(elapsedTimeValueViewbox);
-                    Grid.SetColumn(elapsedTimeValueViewbox, 1);
-                    Grid.SetRow(elapsedTimeValueViewbox, 2);
-
-                    TextBlock temperatureValueText = new TextBlock();
-                    temperatureValueText.Name = "temperatureValueText" + stationNumber; 
-                    Viewbox temperatureValueViewbox = new Viewbox();
-                    temperatureValueViewbox.Margin = new Thickness { Left = 8, Right = 8 };
-                    temperatureValueViewbox.Child = temperatureValueText;
-                    temperatureValueViewbox.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
-                    currentSampleGrid.Children.Add(temperatureValueViewbox);
-                    Grid.SetColumn(temperatureValueViewbox, 1);
-                    Grid.SetRow(temperatureValueViewbox, 3);
+                    Grid.SetColumn(elapsedTimeValueViewbox, 0);
+                    Grid.SetRow(elapsedTimeValueViewbox, 3);
+                    Grid.SetColumnSpan(elapsedTimeValueViewbox, 2);
 
                     aGrid.Children.Add(currentSampleGrid);
                     Grid.SetColumn(currentSampleGrid, x);
@@ -269,6 +278,41 @@ namespace AdherentSampleOven
                     stationNumber--;
                 }
             }
+        }
+
+        private void startStopClicked(object sender, RoutedEventArgs eventArgs)
+        {
+            if (sender is Button)
+            {
+                Button btn = sender as Button;
+                byte? stationNumber = btn.Tag as byte?;
+                if (stationNumber != null) {
+                    byte stn = stationNumber ?? 0;
+                    if (ovenManager.SampleDictionary.ContainsKey(stn))
+                    {
+                        SampleOvenManager.SampleData sampleData = ovenManager.SampleDictionary[stn];
+                        if (sampleData.endDateTime == null)
+                        {
+                            Log.Information("Reset pressed for station " + stn);
+                            ovenManager.SampleDictionary.Remove(stn);
+                            //sampleData.startDateTime = null;
+                            //sampleData.endDateTime = null;                        
+                        } else
+                        {
+                            ovenManager.SampleDictionary.Remove(stn);
+/*                            sampleData.endDateTime = null;
+                            sampleData.startDateTime = DateTime.Now;
+                            ovenManager.SampleDictionary[stn] = sampleData; */
+                        }
+                    } else
+                    {
+                        Log.Information("Start pressed for station "  + stn);
+                        SampleOvenManager.SampleData sampleData = new SampleOvenManager.SampleData(DateTime.Now);
+                        ovenManager.SampleDictionary[stn] = sampleData;
+                    }
+                }
+            }
+            //int stationNumber = sender.Tag.toInt;
         }
 
         /*
@@ -329,7 +373,7 @@ namespace AdherentSampleOven
          */
         private void startRun()
         {
-            sampleLogger.Info("Run Started");
+            Log.Information("Run Started");
             // Get a fresh copy of the application settings
             settings = DataObjects.SettingsManager.Instance.ApplicationSettings;
             // Shade unused stations
@@ -342,18 +386,18 @@ namespace AdherentSampleOven
             }
             catch (Exception e)
             {
-                sampleLogger.Info("Run Ended - Error configuring device", e, null);
-                logger.Error("Run Ended - Error configuring device", e, null);
+                //sampleLogger.Info("Run Ended - Error configuring device", e, null);
+                Log.Error("Run Ended - Error configuring device", e, null);
                 return;
             }
             // Add event handler for dispatch timer tick and start the timer
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             dispatcherTimer.Start();
             // Change start/stop button to show stop
-            startStopButton.Content = "Stop";
+            //startStopButton.Content = "Stop";
             // Disable the config menu while running
-            configMenuItem.IsEnabled = false;
-            running = true;
+            //configMenuItem.IsEnabled = false;
+            //running = true;
         }
 
         /*
@@ -363,11 +407,11 @@ namespace AdherentSampleOven
          */
         private void stopRun()
         {
-            sampleLogger.Info("Run Stopped");
+            Log.Information("Run Stopped");
             dispatcherTimer.Stop();
-            startStopButton.Content = "Start";
-            configMenuItem.IsEnabled = true;
-            running = false;
+            //startStopButton.Content = "Start";
+            //configMenuItem.IsEnabled = true;
+            //running = false;
         }
 
         /*
@@ -380,7 +424,7 @@ namespace AdherentSampleOven
             // Get currnt device status from ovenManager
             ovenManager.updateResults();
             // Show current elapsed time
-            timeFromStartValue.Text = String.Format("{0:N0}:{1}", (ovenManager.ElapsedTime.Days * 24 * 60 + ovenManager.ElapsedTime.Hours * 60 + ovenManager.ElapsedTime.Minutes), ovenManager.ElapsedTime.Seconds);
+            // timeFromStartValue.Text = String.Format("{0:N0}:{1}", (ovenManager.ElapsedTime.Days * 24 * 60 + ovenManager.ElapsedTime.Hours * 60 + ovenManager.ElapsedTime.Minutes), ovenManager.ElapsedTime.Seconds);
 
             // Show status message - this would contain device errors if any occurred
             statusText.Text = ovenManager.StatusMessage;
@@ -397,24 +441,16 @@ namespace AdherentSampleOven
                 // than timeout then log the error and stop the current run.
                 if ((DateTime.Now - lastTimeNoError).TotalSeconds > settings.SecondsBeforeErrorTimeout)
                 {
-                    logger.Error("Run Ending in Error - see log for more details - " + ovenManager.StatusMessage);
+                    Log.Error("Run Ending in Error - see log for more details - " + ovenManager.StatusMessage);
                     stopRun();
                     runCompletedText.Visibility = Visibility.Visible;
                 }
             }
 
-            // Display current temperature 
-            if (settings.TemperatureFormat == TemperatureFormatEnum.Farenheit)
-            {
-                currentTemperatureValue.Text = System.Math.Round(ovenManager.OvenTemperature) + "°F";
-            } else
-            {
-                currentTemperatureValue.Text = System.Math.Round(ovenManager.OvenTemperature) + "°C";
-            }
             // Update station results
             updateSampleGrid(sampleGrid);
             // If all sample stations have been triggered then show completed and stop the current run.
-            if (ovenManager.RunCompleted)
+            /*if (ovenManager.RunCompleted)
             {
                 sampleLogger.Info("Run Completed - all samples triggered");
                 stopRun();
@@ -423,7 +459,7 @@ namespace AdherentSampleOven
             else
             {
                 runCompletedText.Visibility = Visibility.Hidden;
-            }
+            } */
 
         }
 
@@ -458,43 +494,103 @@ namespace AdherentSampleOven
          */
         private void updateSampleBlock(Grid aGrid, byte sampleNumber, SampleOvenManager.SampleData? sampleData)
         {
-
-            Object timeObject = LogicalTreeHelper.FindLogicalNode(aGrid, "elapsedTimeValueText" + sampleNumber);
-            if (timeObject is TextBlock)
+            SolidColorBrush greenBrush = new SolidColorBrush(Colors.Green);
+            SolidColorBrush redBrush = new SolidColorBrush(Colors.Red);
+            SolidColorBrush grayBrush = new SolidColorBrush(Colors.LightGray);
+            Object startButtonObj = LogicalTreeHelper.FindLogicalNode(aGrid, "StartButton" + sampleNumber);
+            if (startButtonObj is Button)
             {
-                TextBlock timeTextBlock = timeObject as TextBlock;
+                Button startButton = startButtonObj as Button;
                 if (sampleData.HasValue)
                 {
-                    timeTextBlock.Text = String.Format("{0:N0}", (sampleData.Value.finalTime.Days * 24 * 60 + sampleData.Value.finalTime.Hours * 60 + sampleData.Value.finalTime.Minutes));
+                    if (sampleData.Value.endDateTime == null)
+                    {
+                        if (sampleData.Value.startDateTime == null)
+                        {
+                            startButton.Background = greenBrush;
+                            startButton.Content = "Start";
+                        } else
+                        {
+                            startButton.Background = redBrush;
+                            startButton.Content = "Reset";
+                        }
+
+                    } else
+                    {
+                        startButton.Background = grayBrush;
+                        startButton.Content = "Clear";
+                    }
+                    // timeTextBlock.Text = String.Format("{0:N0}", (sampleData.Value.finalTime.Days * 24 * 60 + sampleData.Value.finalTime.Hours * 60 + sampleData.Value.finalTime.Minutes));
                 }
                 else
                 {
-                    timeTextBlock.Text = "";
+                    startButton.Background = greenBrush;
+                    startButton.Content = "Start";
                 }
             }
-            Object tempObject = LogicalTreeHelper.FindLogicalNode(aGrid, "temperatureValueText" + sampleNumber);
-            if (tempObject is TextBlock)
+            if (sampleData.HasValue)
             {
-                TextBlock elapsedTemperatureTextBlock = tempObject as TextBlock;
-                if (sampleData.HasValue)
+                updateStartTime(aGrid, sampleNumber, sampleData.Value.startDateTime);
+                updateElapsedTime(aGrid, sampleNumber, sampleData.Value.startDateTime, sampleData.Value.endDateTime);
+            }
+            else
+            {
+                updateStartTime(aGrid, sampleNumber, null);
+                updateElapsedTime(aGrid, sampleNumber, null, null);
+            }
+            /*Object timeObject = LogicalTreeHelper.FindLogicalNode(aGrid, "elapsedTimeValueText" + sampleNumber);
+                if (timeObject is TextBlock)
                 {
-                    if (settings.TemperatureFormat == TemperatureFormatEnum.Farenheit)
+                    TextBlock timeTextBlock = timeObject as TextBlock;
+                    if (sampleData.HasValue)
                     {
-                        elapsedTemperatureTextBlock.Text = System.Math.Round(sampleData.Value.finalTemp) + "°F";
+                       // timeTextBlock.Text = String.Format("{0:N0}", (sampleData.Value.finalTime.Days * 24 * 60 + sampleData.Value.finalTime.Hours * 60 + sampleData.Value.finalTime.Minutes));
                     }
                     else
                     {
-                        elapsedTemperatureTextBlock.Text = System.Math.Round(sampleData.Value.finalTemp) + "°C";
+                        timeTextBlock.Text = "";
                     }
-                }
-                else
+                } */
+        }
+
+        private void updateStartTime(Grid aGrid, byte sampleNumber, DateTime? startValue)
+        {
+            Object startTimeObj = LogicalTreeHelper.FindLogicalNode(aGrid, "startTimeValueText" + sampleNumber);
+            if (startTimeObj is TextBlock)
+            {
+                TextBlock startTimeTextBlock = startTimeObj as TextBlock;
+                if (startValue == null)
                 {
-                    elapsedTemperatureTextBlock.Text = "";
+                    startTimeTextBlock.Text = "";
+                } else
+                {
+                    DateTime startDateTime = startValue ?? DateTime.Now;
+                    startTimeTextBlock.Text = "Start: " + startDateTime.ToString("MM/dd/yy H:mm:ss");
                 }
+
             }
         }
 
+        private void updateElapsedTime(Grid aGrid, byte sampleNumber, DateTime? startValue, DateTime? endValue)
+        {
+            Object elapsedTimeObj = LogicalTreeHelper.FindLogicalNode(aGrid, "elapsedTimeValueText" + sampleNumber);
+            if (elapsedTimeObj is TextBlock)
+            {
+                TextBlock elapsedTimeTextBlock = elapsedTimeObj as TextBlock;
+                if (startValue == null || endValue == null)
+                {
+                    elapsedTimeTextBlock.Text = "";
+                }
+                else
+                {
+                    DateTime startDateTime = startValue ?? DateTime.Now;
+                    DateTime endDateTime = endValue ?? DateTime.Now;
+                    TimeSpan elapsedTime = endDateTime - startDateTime;
+                    elapsedTimeTextBlock.Text = "Elapsed: " + elapsedTime.ToString(@"dd\:hh\:mm");
+                }
 
+            }
+        }
 
 
         /*

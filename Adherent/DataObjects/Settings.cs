@@ -20,25 +20,7 @@ namespace AdherentSampleOven.DataObjects
             set;
         }
 
-        public int TempBoardNumber
-        {
-            get;
-            set;
-        }
-        
-        public byte TempPortNumber
-        {
-            get;
-            set;
-        }
-
         public int DIOBoardNumber
-        {
-            get;
-            set;
-        }
-
-        public TemperatureFormatEnum TemperatureFormat
         {
             get;
             set;

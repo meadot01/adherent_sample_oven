@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using MccDaq;
+using Serilog;
 using AdherentSampleOven.DataObjects;
-using NLog;
 
 namespace AdherentSampleOven.HardwareInterface
 {
@@ -15,7 +13,7 @@ namespace AdherentSampleOven.HardwareInterface
      */
     class MccDeviceReader
     {
-        private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        //private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private MccBoard tempBoard, dioBoard;
         private Settings settings;
         private TempScale tempScale;
@@ -26,23 +24,13 @@ namespace AdherentSampleOven.HardwareInterface
         {
             settings = _settings;
             ISet<MccDaq.DigitalPortType> portsUsed = settings.getPortsUsed();
-            tempBoard = new MccBoard(settings.TempBoardNumber);
-
-            if (settings.TemperatureFormat == TemperatureFormatEnum.Farenheit)
-            {
-                tempScale = TempScale.Fahrenheit;
-            }
-            else
-            {
-                tempScale = TempScale.Celsius;
-            }
             dioBoard = new MccBoard(settings.DIOBoardNumber);
             foreach (DigitalPortType portType in settings.getPortsUsed())
             {
                 MccDaq.ErrorInfo ulStat = dioBoard.DConfigPort(portType, MccDaq.DigitalPortDirection.DigitalIn);
                 if (ulStat.Value != ErrorInfo.ErrorCode.NoErrors)
                 {
-                    logger.Error("Error while configuring DIO Board : " + ulStat.Message);
+                    Log.Error("Error while configuring DIO Board : " + ulStat.Message);
                     throw new Exception("Error while configuring DIO Board : " + ulStat.Message);
                 }
             }
@@ -55,20 +43,8 @@ namespace AdherentSampleOven.HardwareInterface
         {
             MccDeviceResults results = new MccDeviceResults();
             results.ErrorCondition = false;
-            float tempuratureValue;
-            MccDaq.ErrorInfo ulStat = tempBoard.TIn(settings.TempPortNumber, tempScale, out tempuratureValue, termocoupleOptions);
-            if (ulStat.Value == ErrorInfo.ErrorCode.NoErrors)
-            {
-                results.Temperature = tempuratureValue;
-            }
-            else
-            {
-                results.ErrorCondition = true;
-                results.ErrorString = "Error while reading Temperature : " + ulStat.Message;
-                logger.Warn(results.ErrorString);
-                return results;
-            }
             IDictionary<MccDaq.DigitalPortType, ushort> dioPortValues = new Dictionary<MccDaq.DigitalPortType, ushort>();
+            MccDaq.ErrorInfo ulStat;
             // The DIO board is read an entire port at a time
             foreach (MccDaq.DigitalPortType portType in settings.getPortsUsed())
             {
@@ -82,7 +58,7 @@ namespace AdherentSampleOven.HardwareInterface
                 {
                     results.ErrorCondition = true;
                     results.ErrorString = "Error while reading dio port " + portType.ToString() + " : " + ulStat.Message;
-                    logger.Warn(results.ErrorString);
+                    Log.Warning(results.ErrorString);
                     return results;
                 }
 

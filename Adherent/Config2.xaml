@@ -5,15 +5,11 @@
     <Grid>
             <DockPanel>
             <Grid DockPanel.Dock="Top" Height="71" >
-                <ComboBox Margin="121,20,0,0"  Name="tcBoardNumberCombo" HorizontalAlignment="Left" Width="41" Height="23" VerticalAlignment="Top" />
-                <ComboBox Margin="280,20,0,0"  Name="tcPortNumberCombo" HorizontalAlignment="Left" Width="33" Height="23" VerticalAlignment="Top" />
-                <ComboBox Margin="396,20,0,0"  Name="dioBordNumberCombo" HorizontalAlignment="Left" Width="38" Height="23" VerticalAlignment="Top" />
-                <TextBlock Height="23" HorizontalAlignment="Left" Margin="6,20,0,0" Name="textBlock1" Text="Temperature Board#:" VerticalAlignment="Top" Width="112" />
-                <TextBlock Height="23" HorizontalAlignment="Left" Margin="171,20,0,0" Name="textBlock2" Text="Temperature Port#:" VerticalAlignment="Top" Width="106" />
-                <TextBlock Height="23" HorizontalAlignment="Left" Margin="328,20,0,0" Name="textBlock3" Text="DIO Board#:" VerticalAlignment="Top" Width="62" />
-                <RadioButton GroupName="temperatureFormat" Content="°C" Name="celsiusRadioButton" Margin="452,46,0,0" HorizontalAlignment="Left" Width="40" Height="19" VerticalAlignment="Top" />
-                <RadioButton GroupName="temperatureFormat" Content="°F" Name="farenheitRadioButton" Margin="452,24,0,0" HorizontalAlignment="Left" Width="40" Height="19" VerticalAlignment="Top" />
-                <TextBlock Height="18" HorizontalAlignment="Left" Margin="452,6,0,0" Name="textBlock4" Text="Temperature Format" VerticalAlignment="Top" Width="115" />
+                <ComboBox Margin="90,20,0,0"  Name="dioBordNumberCombo" HorizontalAlignment="Left" Width="38" Height="23" VerticalAlignment="Top" />
+                <TextBlock Height="23" HorizontalAlignment="Left" Margin="12,20,0,0" Name="textBlock3" Text="DIO Board#:" VerticalAlignment="Top" Width="62" />
+                <RadioButton GroupName="switchDefault" Content="Closed" x:Name="closedRadioButton" Margin="452,46,0,0" HorizontalAlignment="Left" Width="89" Height="19" VerticalAlignment="Top" />
+                <RadioButton GroupName="switchDefault" Content="Open" x:Name="openRadioButton" Margin="452,24,0,0" HorizontalAlignment="Left" Width="69" Height="19" VerticalAlignment="Top" />
+                <TextBlock Height="18" HorizontalAlignment="Left" Margin="452,6,0,0" Name="textBlock4" Text="Switch Default" VerticalAlignment="Top" Width="115" />
             </Grid>
             <Grid DockPanel.Dock="Bottom" Height="52">
                 <Button Content="Save" HorizontalAlignment="Right" Margin="0,20,24,9" Name="saveButton" Width="75" IsDefault="True" Click="saveButton_Click" />

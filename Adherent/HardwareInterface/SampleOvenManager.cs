@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Serilog;
 using AdherentSampleOven.DataObjects;
-using NLog;
 
 namespace AdherentSampleOven.HardwareInterface
 {
@@ -13,20 +13,20 @@ namespace AdherentSampleOven.HardwareInterface
      */
     public class SampleOvenManager
     {
-        private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
-        private static Logger sampleLogger = NLog.LogManager.GetLogger("SampleLogger");
+        //private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        //private static Logger sampleLogger = NLog.LogManager.GetLogger("SampleLogger");
         private Settings settings;
 
         public struct SampleData
         {
 
-            public float finalTemp;
-            public TimeSpan finalTime;
+            public DateTime startDateTime;
+            public DateTime? endDateTime;
 
-            public SampleData(float _finalTemp, TimeSpan _finalTime)
+            public SampleData(DateTime _startDateTime)
             {
-                finalTemp = _finalTemp;
-                finalTime = _finalTime;
+                startDateTime = _startDateTime;
+                endDateTime = null;
             }
         }
 
@@ -93,26 +93,21 @@ namespace AdherentSampleOven.HardwareInterface
             else
             {
                 StatusMessage = ""; ;
-                OvenTemperature = results.Temperature;
                 runCompleted = results.RunCompleted;
                 foreach (var sampleValue in results.SampleValues)
                 {
                     if (!sampleValue.Value)
                     {
-                        if (!sampleDictionary.ContainsKey(sampleValue.Key))
+                        if (sampleDictionary.ContainsKey(sampleValue.Key))
                         {
-                            sampleDictionary[sampleValue.Key] = new SampleData(results.Temperature, ElapsedTime);
-                            String temperatureString;
-                            if (settings.TemperatureFormat == TemperatureFormatEnum.Farenheit)
-                            {
-                                temperatureString = System.Math.Round(results.Temperature) + "°F";
+                            SampleData sampleData = sampleDictionary[sampleValue.Key];
+                            if (sampleData.endDateTime == null) {
+                                sampleData.endDateTime = DateTime.Now;
+                                DateTime end = sampleData.endDateTime ?? DateTime.Now;
+                                TimeSpan elapsed = end - sampleData.startDateTime;
+                                sampleDictionary[sampleValue.Key] = sampleData;
+                                Log.Information("Sample #" + sampleValue.Key + " triggered, elapsed time : " + elapsed.ToString(@"hh\:mm"));
                             }
-                            else
-                            {
-                                temperatureString = System.Math.Round(results.Temperature) + "°C";
-                            }
-                            sampleLogger.Info("Sample #" + sampleValue.Key + " triggered with temperature = " + temperatureString + ", elapsed time : " + ElapsedTime.ToString(@"hh\:mm"));
-                            
                         }
                     }
                 }

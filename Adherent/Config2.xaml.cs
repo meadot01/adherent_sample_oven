@@ -44,22 +44,17 @@ namespace AdherentSampleOven
                 byteList.Add(i);
             }
 
-            tcBoardNumberCombo.ItemsSource = intList;
-            tcBoardNumberCombo.SelectedItem = settings.TempBoardNumber;
-
-            tcPortNumberCombo.ItemsSource = byteList;
-            tcPortNumberCombo.SelectedItem = settings.TempPortNumber;
 
             dioBordNumberCombo.ItemsSource = intList;
             dioBordNumberCombo.SelectedItem = settings.DIOBoardNumber;
 
-            if (settings.TemperatureFormat == TemperatureFormatEnum.Farenheit)
+            if (settings.SwitchDefaultClosed == true)
             {
-                farenheitRadioButton.IsChecked = true;
+                closedRadioButton.IsChecked = true;
             }
             else
             {
-                celsiusRadioButton.IsChecked = true;
+                openRadioButton.IsChecked = true;
             }
 
 
@@ -192,16 +187,14 @@ namespace AdherentSampleOven
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
             Settings updatedSettings = new Settings();
-            updatedSettings.TempBoardNumber = (int)tcBoardNumberCombo.SelectedItem;
-            updatedSettings.TempPortNumber = (byte)tcPortNumberCombo.SelectedItem;
             updatedSettings.DIOBoardNumber = (int)dioBordNumberCombo.SelectedItem;
-            if (farenheitRadioButton.IsChecked == true)
+            if (closedRadioButton.IsChecked == true)
             {
-                updatedSettings.TemperatureFormat = TemperatureFormatEnum.Farenheit;
+                updatedSettings.SwitchDefaultClosed = true;
             }
             else
             {
-                updatedSettings.TemperatureFormat = TemperatureFormatEnum.Celsius;
+                updatedSettings.SwitchDefaultClosed = false;
             }
 
             IDictionary<byte,MccPortInformation> sampleSettingsDictionary = new Dictionary<byte, MccPortInformation>();

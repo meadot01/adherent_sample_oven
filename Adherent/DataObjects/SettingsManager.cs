@@ -52,24 +52,6 @@ namespace AdherentSampleOven.DataObjects
                     sampleConfigDict.Add(i, portInfo);
                 }
                 applicationSettings.SampleConfigurationDictionary = sampleConfigDict;
-                Object tempBoardNumber = Properties.Settings.Default[tempBoardNumberPropertyName];
-                if (tempBoardNumber == null)
-                {
-                    applicationSettings.TempBoardNumber = 0;
-                }
-                else
-                {
-                    applicationSettings.TempBoardNumber = (int)tempBoardNumber;
-                }
-                Object tempPortNumber = Properties.Settings.Default[tempPortNumberPropertyName];
-                if (tempPortNumber == null)
-                {
-                    applicationSettings.TempPortNumber = 0;
-                }
-                else
-                {
-                    applicationSettings.TempPortNumber = (byte)tempPortNumber;
-                }
                 Object dioBoardNumber = Properties.Settings.Default[dioBoardNumberPropertyName];
                 if (dioBoardNumber == null)
                 {
@@ -78,22 +60,6 @@ namespace AdherentSampleOven.DataObjects
                 else
                 {
                     applicationSettings.DIOBoardNumber = (int)dioBoardNumber;
-                }
-                Object tempFormatCelsius = Properties.Settings.Default[tempFormatCelsiusPropertyName];
-                if (tempFormatCelsius == null)
-                {
-                    applicationSettings.TemperatureFormat = TemperatureFormatEnum.Celsius;
-                }
-                else
-                {
-                    if ((bool)tempFormatCelsius)
-                    {
-                        applicationSettings.TemperatureFormat = TemperatureFormatEnum.Celsius;
-                    }
-                    else
-                    {
-                        applicationSettings.TemperatureFormat = TemperatureFormatEnum.Farenheit;
-                    }
                 }
                 Object switchDefaultClosed = Properties.Settings.Default[switchDefaultClosedPropertyName];
                 if (switchDefaultClosed == null)
@@ -138,16 +104,13 @@ namespace AdherentSampleOven.DataObjects
                         Properties.Settings.Default[samplePropertyPrefix + pair.Key] = portName;
                     }
                 }
-                Properties.Settings.Default[tempBoardNumberPropertyName] = settings.TempBoardNumber;
-                Properties.Settings.Default[tempPortNumberPropertyName] = settings.TempPortNumber;
                 Properties.Settings.Default[dioBoardNumberPropertyName] = settings.DIOBoardNumber;
-                if (settings.TemperatureFormat == TemperatureFormatEnum.Farenheit)
+                if (settings.SwitchDefaultClosed == true)
                 {
-                    Properties.Settings.Default[tempFormatCelsiusPropertyName] = false;
-                }
-                else
+                    Properties.Settings.Default[switchDefaultClosedPropertyName] = true;
+                } else
                 {
-                    Properties.Settings.Default[tempFormatCelsiusPropertyName] = true;
+                    Properties.Settings.Default[switchDefaultClosedPropertyName] = false;
                 }
                 Properties.Settings.Default[secondsBeforeErrorTimeoutPropertyName] = settings.SecondsBeforeErrorTimeout;
             }

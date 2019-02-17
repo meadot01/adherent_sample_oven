@@ -12,12 +12,6 @@ namespace AdherentSampleOven.HardwareInterface
      */
     class MccDeviceResults
     {
-        public float Temperature
-        {
-            get;
-            set;
-        }
-
         private IDictionary<byte,bool>sampleValues = new Dictionary<byte, bool>();
 
         public IDictionary<byte, bool> SampleValues
