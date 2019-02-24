@@ -22,11 +22,13 @@ namespace AdherentSampleOven.HardwareInterface
 
             public DateTime startDateTime;
             public DateTime? endDateTime;
+            public String stationName;
 
-            public SampleData(DateTime _startDateTime)
+            public SampleData(DateTime _startDateTime, String _stationName)
             {
                 startDateTime = _startDateTime;
                 endDateTime = null;
+                stationName = _stationName;
             }
         }
 
@@ -106,7 +108,12 @@ namespace AdherentSampleOven.HardwareInterface
                                 DateTime end = sampleData.endDateTime ?? DateTime.Now;
                                 TimeSpan elapsed = end - sampleData.startDateTime;
                                 sampleDictionary[sampleValue.Key] = sampleData;
-                                Log.Information("Sample #" + sampleValue.Key + " triggered, elapsed time : " + elapsed.ToString(@"hh\:mm"));
+                                String sampleName = "";
+                                if (sampleData.stationName.Length != 0)
+                                {
+                                    sampleName = "(" + sampleData.stationName + ")";
+                                }
+                                Log.Information("Sample #" + sampleValue.Key + " " + sampleName + " triggered, elapsed time : " + elapsed.ToString(@"hh\:mm"));
                             }
                         }
                     }

@@ -34,6 +34,8 @@ namespace AdherentSampleOven
         // lastTimeNoError - the last time the devices were scanned with no error
         private DateTime lastTimeNoError = DateTime.Now;
 
+        private TextBox[] sampleNameTextBoxes = new TextBox[32];
+
         public MainWindow()
         {
             InitializeComponent();
@@ -203,7 +205,7 @@ namespace AdherentSampleOven
                     rowdef4.Height = new GridLength(2, GridUnitType.Star);
 
                     ColumnDefinition coldef1 = new ColumnDefinition();
-                    coldef1.Width = new GridLength(4, GridUnitType.Star);
+                    coldef1.Width = new GridLength(1, GridUnitType.Star);
                     ColumnDefinition coldef2 = new ColumnDefinition();
                     coldef2.Width = new GridLength(3, GridUnitType.Star);
 
@@ -243,7 +245,18 @@ namespace AdherentSampleOven
                     currentSampleGrid.Children.Add(stationLabelViewbox);
                     Grid.SetColumn(stationLabelViewbox, 0);
                     Grid.SetRow(stationLabelViewbox, 0);
-                    Grid.SetColumnSpan(stationLabelViewbox, 2);
+                    Grid.SetColumnSpan(stationLabelViewbox, 1);
+
+                    TextBox sampleNameTextBox = new TextBox();
+                    sampleNameTextBox.Name = "SampleName" + stationNumber;
+                    sampleNameTextBox.Tag = stationNumber;
+                    sampleNameTextBoxes[stationNumber] = sampleNameTextBox;
+                    sampleNameTextBox.TextChanged += new TextChangedEventHandler(sampleNameChanged);
+                    currentSampleGrid.Children.Add(sampleNameTextBox);
+                    sampleNameTextBox.Padding = new Thickness { Left = 8, Right = 8 };
+                    Grid.SetColumn(sampleNameTextBox, 1);
+                    Grid.SetRow(sampleNameTextBox, 0);
+                    Grid.SetColumnSpan(sampleNameTextBox, 1);
 
                     TextBlock startTimeValueText = new TextBlock();
                     startTimeValueText.TextAlignment = TextAlignment.Left;
@@ -280,6 +293,27 @@ namespace AdherentSampleOven
             }
         }
 
+        private void sampleNameChanged(object sender, RoutedEventArgs eventArgs)
+        {
+            if (sender is TextBox)
+            {
+                TextBox samepleNameTextBox = sender as TextBox;
+                byte? stationNumber = samepleNameTextBox.Tag as byte?;
+                if (stationNumber != null)
+                {
+                    byte stn = stationNumber ?? 0;
+                    if (ovenManager.SampleDictionary.ContainsKey(stn))
+                    {
+                        SampleOvenManager.SampleData sampleData = ovenManager.SampleDictionary[stn];
+                        sampleData.stationName = samepleNameTextBox.Text;
+                        ovenManager.SampleDictionary[stn] = sampleData;
+                    }
+                }
+            }
+            //int stationNumber = sender.Tag.toInt;
+        }
+
+
         private void startStopClicked(object sender, RoutedEventArgs eventArgs)
         {
             if (sender is Button)
@@ -288,12 +322,18 @@ namespace AdherentSampleOven
                 byte? stationNumber = btn.Tag as byte?;
                 if (stationNumber != null) {
                     byte stn = stationNumber ?? 0;
+                    TextBox sampleNameTextBox = sampleNameTextBoxes[stn];
+                    String stationString = "" + stn;
+                    if (sampleNameTextBox.Text.Length != 0)
+                    {
+                        stationString = stationString + "(" + sampleNameTextBox.Text + ")";
+                    }
                     if (ovenManager.SampleDictionary.ContainsKey(stn))
                     {
                         SampleOvenManager.SampleData sampleData = ovenManager.SampleDictionary[stn];
                         if (sampleData.endDateTime == null)
                         {
-                            Log.Information("Reset pressed for station " + stn);
+                            Log.Information("Reset pressed for station " + stationString);
                             ovenManager.SampleDictionary.Remove(stn);
                             //sampleData.startDateTime = null;
                             //sampleData.endDateTime = null;                        
@@ -306,8 +346,8 @@ namespace AdherentSampleOven
                         }
                     } else
                     {
-                        Log.Information("Start pressed for station "  + stn);
-                        SampleOvenManager.SampleData sampleData = new SampleOvenManager.SampleData(DateTime.Now);
+                        Log.Information("Start pressed for station "  + stationString);
+                        SampleOvenManager.SampleData sampleData = new SampleOvenManager.SampleData(DateTime.Now, sampleNameTextBox.Text);
                         ovenManager.SampleDictionary[stn] = sampleData;
                     }
                 }
