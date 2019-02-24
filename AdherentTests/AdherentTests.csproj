@@ -64,9 +64,9 @@
     <None Include="NUnit\nunit.core.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Adherent\Adherent.csproj">
+    <ProjectReference Include="..\Adherent\AdherentOven.csproj">
       <Project>{A0316623-1EE3-4F8D-AE8B-D294A7FF236C}</Project>
-      <Name>Adherent</Name>
+      <Name>AdherentOven</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

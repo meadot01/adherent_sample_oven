@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using AdherentSampleOven.DataObjects;
-using NLog;
+using Serilog;
 
 namespace AdherentSampleOven.HardwareInterface
 {
@@ -13,8 +11,8 @@ namespace AdherentSampleOven.HardwareInterface
      */
     public class SampleOvenManager
     {
-        private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
-        private static Logger sampleLogger = NLog.LogManager.GetLogger("SampleLogger");
+        //private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        //private static Logger sampleLogger = NLog.LogManager.GetLogger("SampleLogger");
         private Settings settings;
 
         public struct SampleData
@@ -111,7 +109,7 @@ namespace AdherentSampleOven.HardwareInterface
                             {
                                 temperatureString = System.Math.Round(results.Temperature) + "°C";
                             }
-                            sampleLogger.Info("Sample #" + sampleValue.Key + " triggered with temperature = " + temperatureString + ", elapsed time : " + ElapsedTime.ToString(@"hh\:mm"));
+                            Log.Information("Sample #" + sampleValue.Key + " triggered with temperature = " + temperatureString + ", elapsed time : " + ElapsedTime.ToString(@"hh\:mm"));
                             
                         }
                     }
