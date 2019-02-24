@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Printing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Serilog;
 using Serilog.Sinks.RollingFileAlternate;
-using AdherentSampleOven.DataObjects;
 using AdherentSampleOven.HardwareInterface;
 
 
