@@ -11,3 +11,7 @@ The branch sheer-testing-variant contains a variation of the code that does not 
   - Addition setting was added to determine if the default (non-tripped) state is an open or closed circuit.
  
 As a side-effect of this new functionality if you need to change any settings this must be done before any stations are started and then the aplication should be stopped and started again.  
+
+### Logging
+
+Sample data will be logged to \AdherentOvenLogs for the saft oven and to \AdherentSheerLogs for sheer testing.
