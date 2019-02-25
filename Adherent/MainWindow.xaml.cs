@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Printing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using NLog;
-using NLog.Config;
-using NLog.Targets;
-using NLog.Layouts;
+using Serilog;
+using Serilog.Sinks.RollingFileAlternate;
 using AdherentSampleOven.DataObjects;
 using AdherentSampleOven.HardwareInterface;
 
@@ -22,9 +19,9 @@ namespace AdherentSampleOven
     public partial class MainWindow : Window
     {
         // logger - main logger
-        private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
+//        private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
         // sampleLogger - logger to log only sample run information - should all be INFO level
-        private static Logger sampleLogger = NLog.LogManager.GetLogger("SampleLogger");
+//        private static Logger sampleLogger = NLog.LogManager.GetLogger("SampleLogger");
         // running - is a sample run currently in progress?
         private Boolean running = false;
         // dispatchTimer - created during a run - device will be checked and display updated after every tick
@@ -38,37 +35,43 @@ namespace AdherentSampleOven
 
         public MainWindow()
         {
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console(restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Debug)
+                .WriteTo.RollingFileAlternate("..\\AdherentOvenLogs", fileSizeLimitBytes: 100000, retainedFileCountLimit: 30, minimumLevel: Serilog.Events.LogEventLevel.Information)
+                //.WriteTo.File("adherent-.txt", rollingInterval: RollingInterval.Month)
+                .CreateLogger();
+
             InitializeComponent();
-            logger.Trace("After InitializeComponent");
+            Log.Debug("After InitializeComponent");
             // Add all the sample stations to the main grid
             addStationControlToGrid(sampleGrid);
-            logger.Trace("Added station control to grid");
+            Log.Debug("Added station control to grid");
             // Create a dispatch timer that will be triggered every second.
             dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
-            logger.Trace("Timer created");
+            Log.Debug("Timer created");
 
-            // Search for the NLog config named sampleFile (or wrapped_sampleFile) and show the location on the screen
-            LoggingConfiguration config = LogManager.Configuration;
-            foreach (Target currentTarget in config.AllTargets)
-            {
-                if (currentTarget is FileTarget)
-                {
-                    if (currentTarget.Name.StartsWith("sampleFile"))
-                    {
+        //    // Search for the NLog config named sampleFile (or wrapped_sampleFile) and show the location on the screen
+        //    LoggingConfiguration config = LogManager.Configuration;
+        //    foreach (Target currentTarget in config.AllTargets)
+        //    {
+        //        if (currentTarget is FileTarget)
+        //        {
+        //            if (currentTarget.Name.StartsWith("sampleFile"))
+        //            {
 
-                        FileTarget standardTarget = currentTarget as FileTarget;
-                        string expandedFileName = NLog.Layouts.SimpleLayout.Evaluate(standardTarget.FileName.ToString());
-                        logFileLocationTextBlock.Text = expandedFileName;
-                        break;
-                    }
-                }
-            } 
+        //                FileTarget standardTarget = currentTarget as FileTarget;
+        //                string expandedFileName = NLog.Layouts.SimpleLayout.Evaluate(standardTarget.FileName.ToString());
+        //                logFileLocationTextBlock.Text = expandedFileName;
+        //                break;
+        //            }
+        //        }
+        //    } 
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            logger.Trace("Wndow Loaded");
+            Log.Debug("Wndow Loaded");
 
         }
 
@@ -165,7 +168,7 @@ namespace AdherentSampleOven
                 }
                 catch (Exception ex)
                 {
-                    logger.Warn("Error occurred while printing", ex, null);
+                    Log.Warning("Error occurred while printing", ex, null);
                     MessageBox.Show("Error occurred while printing - check log for details");
                 }
             }
@@ -329,7 +332,7 @@ namespace AdherentSampleOven
          */
         private void startRun()
         {
-            sampleLogger.Info("Run Started");
+            Log.Information("Run Started");
             // Get a fresh copy of the application settings
             settings = DataObjects.SettingsManager.Instance.ApplicationSettings;
             // Shade unused stations
@@ -342,8 +345,7 @@ namespace AdherentSampleOven
             }
             catch (Exception e)
             {
-                sampleLogger.Info("Run Ended - Error configuring device", e, null);
-                logger.Error("Run Ended - Error configuring device", e, null);
+                Log.Error("Run Ended - Error configuring device", e, null);
                 return;
             }
             // Add event handler for dispatch timer tick and start the timer
@@ -363,7 +365,7 @@ namespace AdherentSampleOven
          */
         private void stopRun()
         {
-            sampleLogger.Info("Run Stopped");
+            Log.Information("Run Stopped");
             dispatcherTimer.Stop();
             startStopButton.Content = "Start";
             configMenuItem.IsEnabled = true;
@@ -397,7 +399,7 @@ namespace AdherentSampleOven
                 // than timeout then log the error and stop the current run.
                 if ((DateTime.Now - lastTimeNoError).TotalSeconds > settings.SecondsBeforeErrorTimeout)
                 {
-                    logger.Error("Run Ending in Error - see log for more details - " + ovenManager.StatusMessage);
+                    Log.Error("Run Ending in Error - see log for more details - " + ovenManager.StatusMessage);
                     stopRun();
                     runCompletedText.Visibility = Visibility.Visible;
                 }
@@ -416,7 +418,7 @@ namespace AdherentSampleOven
             // If all sample stations have been triggered then show completed and stop the current run.
             if (ovenManager.RunCompleted)
             {
-                sampleLogger.Info("Run Completed - all samples triggered");
+                Log.Information("Run Completed - all samples triggered");
                 stopRun();
                 runCompletedText.Visibility = Visibility.Visible;
             }

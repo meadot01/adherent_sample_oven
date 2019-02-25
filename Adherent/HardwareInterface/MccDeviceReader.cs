@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using MccDaq;
 using AdherentSampleOven.DataObjects;
-using NLog;
+using Serilog;
 
 namespace AdherentSampleOven.HardwareInterface
 {
@@ -15,7 +13,7 @@ namespace AdherentSampleOven.HardwareInterface
      */
     class MccDeviceReader
     {
-        private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        //private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private MccBoard tempBoard, dioBoard;
         private Settings settings;
         private TempScale tempScale;
@@ -42,7 +40,7 @@ namespace AdherentSampleOven.HardwareInterface
                 MccDaq.ErrorInfo ulStat = dioBoard.DConfigPort(portType, MccDaq.DigitalPortDirection.DigitalIn);
                 if (ulStat.Value != ErrorInfo.ErrorCode.NoErrors)
                 {
-                    logger.Error("Error while configuring DIO Board : " + ulStat.Message);
+                    Log.Error("Error while configuring DIO Board : " + ulStat.Message);
                     throw new Exception("Error while configuring DIO Board : " + ulStat.Message);
                 }
             }
@@ -65,7 +63,7 @@ namespace AdherentSampleOven.HardwareInterface
             {
                 results.ErrorCondition = true;
                 results.ErrorString = "Error while reading Temperature : " + ulStat.Message;
-                logger.Warn(results.ErrorString);
+                Log.Warning(results.ErrorString);
                 return results;
             }
             IDictionary<MccDaq.DigitalPortType, ushort> dioPortValues = new Dictionary<MccDaq.DigitalPortType, ushort>();
@@ -82,7 +80,7 @@ namespace AdherentSampleOven.HardwareInterface
                 {
                     results.ErrorCondition = true;
                     results.ErrorString = "Error while reading dio port " + portType.ToString() + " : " + ulStat.Message;
-                    logger.Warn(results.ErrorString);
+                    Log.Warning(results.ErrorString);
                     return results;
                 }
 
