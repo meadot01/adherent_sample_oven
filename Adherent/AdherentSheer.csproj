@@ -8,8 +8,8 @@
     <ProjectGuid>{A0316623-1EE3-4F8D-AE8B-D294A7FF236C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AdherentSampleOven</RootNamespace>
-    <AssemblyName>AdherentSampleOven</AssemblyName>
+    <RootNamespace>AdherentSheer</RootNamespace>
+    <AssemblyName>AdherentSheer</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -17,7 +17,7 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>E:\adherentlabs\</PublishUrl>
+    <PublishUrl>E:\adherentlabsinstalls\sheer\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -69,7 +69,7 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>oven-icon.ico</ApplicationIcon>
+    <ApplicationIcon>scissors.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MccDaq, Version=2.9.0.0, Culture=neutral, PublicKeyToken=a37eefcf5c6ca10a, processorArchitecture=MSIL">
@@ -196,6 +196,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="oven-icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="scissors.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

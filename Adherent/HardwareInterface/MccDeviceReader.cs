@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using MccDaq;
 using Serilog;
-using AdherentSampleOven.DataObjects;
+using AdherentSheer.DataObjects;
 
-namespace AdherentSampleOven.HardwareInterface
+namespace AdherentSheer.HardwareInterface
 {
     /*
      * MccDeviceReader

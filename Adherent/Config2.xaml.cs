@@ -10,9 +10,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using AdherentSampleOven.DataObjects;
+using AdherentSheer.DataObjects;
 
-namespace AdherentSampleOven
+namespace AdherentSheer
 {
     /// <summary>
     /// Interaction logic for Config2.xaml

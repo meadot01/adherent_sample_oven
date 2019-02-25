@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AdherentSampleOven.HardwareInterface
+namespace AdherentSheer.HardwareInterface
 {
     class DeviceException : Exception
     {

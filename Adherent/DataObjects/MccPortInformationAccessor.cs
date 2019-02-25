@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AdherentSampleOven.DataObjects
+namespace AdherentSheer.DataObjects
 {
     /*
      * MccPortInformationAccessor is a Singleton - it holds information about the

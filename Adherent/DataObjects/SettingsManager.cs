@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 
 
-namespace AdherentSampleOven.DataObjects
+namespace AdherentSheer.DataObjects
 {
     /*
      * SettingsManager
