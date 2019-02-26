@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 
 
-namespace AdherentSheer.DataObjects
+namespace AdherentShear.DataObjects
 {
     /*
      * SettingsManager

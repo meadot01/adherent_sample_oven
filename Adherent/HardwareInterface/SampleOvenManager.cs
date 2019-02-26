@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Serilog;
-using AdherentSheer.DataObjects;
+using AdherentShear.DataObjects;
 
-namespace AdherentSheer.HardwareInterface
+namespace AdherentShear.HardwareInterface
 {
     /*
      * Class SampleOvenManager will get the oven status and will store the results.  

@@ -63,12 +63,6 @@
     <None Include="NUnit\nunit.core.interfaces.dll" />
     <None Include="NUnit\nunit.core.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Adherent\AdherentSheer.csproj">
-      <Project>{A0316623-1EE3-4F8D-AE8B-D294A7FF236C}</Project>
-      <Name>AdherentSheer</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

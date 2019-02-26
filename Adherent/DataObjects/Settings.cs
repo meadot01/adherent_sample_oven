@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AdherentSheer.DataObjects
+namespace AdherentShear.DataObjects
 {
     public enum TemperatureFormatEnum { Celsius, Farenheit };
 

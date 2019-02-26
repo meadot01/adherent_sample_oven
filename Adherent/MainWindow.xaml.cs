@@ -4,10 +4,10 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Serilog;
 using Serilog.Sinks.RollingFileAlternate;
-using AdherentSheer.HardwareInterface;
+using AdherentShear.HardwareInterface;
 
 
-namespace AdherentSheer
+namespace AdherentShear
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -39,7 +39,7 @@ namespace AdherentSheer
             InitializeComponent();
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console(restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Debug)
-                .WriteTo.RollingFileAlternate("..\\AdherentSheerLogs", fileSizeLimitBytes: 100000, retainedFileCountLimit: 30, minimumLevel: Serilog.Events.LogEventLevel.Information)
+                .WriteTo.RollingFileAlternate("..\\AdherentShearLogs", fileSizeLimitBytes: 100000, retainedFileCountLimit: 30, minimumLevel: Serilog.Events.LogEventLevel.Information)
                 //.WriteTo.File("adherent-.txt", rollingInterval: RollingInterval.Month)
                 .CreateLogger();
             Log.Debug("After InitializeComponent");
