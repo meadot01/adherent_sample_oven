@@ -14,4 +14,4 @@ As a side-effect of this new functionality if you need to change any settings th
 
 ### Logging
 
-Sample data will be logged to \AdherentOvenLogs for the saft oven and to \AdherentSheerLogs for sheer testing.
+Sample data will be logged to \AdherentOvenLogs for the saft oven and to \AdherentShearLogs for shear testing.  Search for these directories to find them as they will be located in strange locations with the ClickOnce install.
