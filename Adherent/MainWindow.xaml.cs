@@ -624,7 +624,8 @@ namespace AdherentShear
                     DateTime startDateTime = startValue ?? DateTime.Now;
                     DateTime endDateTime = endValue ?? DateTime.Now;
                     TimeSpan elapsedTime = endDateTime - startDateTime;
-                    elapsedTimeTextBlock.Text = "Elapsed: " + elapsedTime.ToString(@"dd\:hh\:mm");
+//                    elapsedTimeTextBlock.Text = "Elapsed: " + elapsedTime.ToString(@"dd\:hh\:mm");
+                    elapsedTimeTextBlock.Text = "Elapsed: " + elapsedTime.Minutes;
                 }
 
             }
