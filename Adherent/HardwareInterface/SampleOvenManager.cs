@@ -114,7 +114,7 @@ namespace AdherentShear.HardwareInterface
                                     sampleName = "(" + sampleData.stationName + ")";
                                 }
 //                                Log.Information("Sample #" + sampleValue.Key + " " + sampleName + " triggered, elapsed time : " + elapsed.ToString(@"hh\:mm"));
-                                Log.Information("Sample #" + sampleValue.Key + " " + sampleName + " triggered, elapsed time : " + elapsed.Minutes + " minutes");
+                                Log.Information("Sample #" + sampleValue.Key + " " + sampleName + " triggered, elapsed time : " + Math.Round(elapsed.TotalMinutes) + " minutes");
                             }
                         }
                     }
