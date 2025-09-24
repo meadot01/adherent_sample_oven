@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="C:\Users\OWNER\source\repos\meadot01\adherent_sample_oven\AdherentTests\bin\Debug\AdherentTests.exe" total="1" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2025-08-13" time="21:52:09">
+  <environment nunit-version="2.5.10.11092" clr-version="4.0.30319.42000" os-version="Microsoft Windows NT 6.2.9200.0" platform="Win32NT" cwd="C:\Users\OWNER\source\repos\meadot01\adherent_sample_oven\AdherentTests\bin\Debug" machine-name="DESKTOP-8AEUDD5" user="OWNER" user-domain="DESKTOP-8AEUDD5" />
+  <culture-info current-culture="en-US" current-uiculture="en-US" />
+  <test-suite type="Assembly" name="C:\Users\OWNER\source\repos\meadot01\adherent_sample_oven\AdherentTests\bin\Debug\AdherentTests.exe" executed="True" result="Success" success="True" time="0.305" asserts="0">
+    <results>
+      <test-suite type="Namespace" name="AdherentTests" executed="True" result="Success" success="True" time="0.301" asserts="0">
+        <results>
+          <test-suite type="TestFixture" name="TestFixture1" executed="True" result="Success" success="True" time="0.300" asserts="0">
+            <results>
+              <test-case name="AdherentTests.TestFixture1.TestGetPortByName" executed="True" result="Success" success="True" time="0.297" asserts="2" />
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

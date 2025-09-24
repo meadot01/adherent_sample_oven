@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.329
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36408.4 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdherentOven", "Adherent\AdherentOven.csproj", "{A0316623-1EE3-4F8D-AE8B-D294A7FF236C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdherentTests", "AdherentTests\AdherentTests.csproj", "{6577F019-5CAB-4E67-8FBB-F87D76603E40}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "AdherentOvenSetup", "AdherentOvenSetup\AdherentOvenSetup.vdproj", "{B8C2DF86-2DF7-4A2B-C6DF-22D098D47038}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,8 @@ Global
 		{6577F019-5CAB-4E67-8FBB-F87D76603E40}.Debug|x86.Build.0 = Debug|x86
 		{6577F019-5CAB-4E67-8FBB-F87D76603E40}.Release|x86.ActiveCfg = Release|x86
 		{6577F019-5CAB-4E67-8FBB-F87D76603E40}.Release|x86.Build.0 = Release|x86
+		{B8C2DF86-2DF7-4A2B-C6DF-22D098D47038}.Debug|x86.ActiveCfg = Debug
+		{B8C2DF86-2DF7-4A2B-C6DF-22D098D47038}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
